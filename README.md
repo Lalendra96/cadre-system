@@ -1,7 +1,7 @@
 # HIMS PARIKSHA — Carder Management System
 
 > **Hospital Information Management System — Workforce Cadre Module**  
-> Teaching Hospital Peradeniya · Loons Lab (Pvt) Ltd
+> Teaching Hospital Peradeniya · Lumin Tech Labs (Pvt) Ltd
 
 ---
 
