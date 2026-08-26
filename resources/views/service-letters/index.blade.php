@@ -1,0 +1,105 @@
+@extends('layouts.app')
+@section('title', 'Service Letters')
+
+@push('head')
+<style>
+.sl-status { display:inline-block; padding:2px 10px; border-radius:999px; font-size:11px; font-weight:600; }
+.sl-status-draft            { background:var(--md-surface-container-highest); color:var(--md-on-surface-variant); }
+.sl-status-pending_approval { background:color-mix(in srgb,#ff9800 15%,transparent); color:#ff9800; }
+.sl-status-approved         { background:color-mix(in srgb,#4caf50 15%,transparent); color:#4caf50; }
+.sl-status-rejected         { background:color-mix(in srgb,var(--md-error) 12%,transparent); color:var(--md-error); }
+</style>
+@endpush
+
+@section('content')
+@php($user = auth()->user())
+@php($isApprover = $user->isAdministrativeOfficer() || $user->isSuperAdmin())
+
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
+    <div>
+        <h2 class="md-headline-sm">Service Letters</h2>
+        <p class="md-body-sm" style="color:var(--md-on-surface-variant);">
+            @if($isApprover)
+                Letters awaiting your review as Administrative Officer, and everything already actioned.
+            @else
+                Service letters you've drafted for employees under your subject codes.
+            @endif
+        </p>
+    </div>
+    <a href="{{ route('service-letters.create') }}" class="md-btn md-btn--filled">+ New Service Letter</a>
+</div>
+
+@if(session('success'))
+<div style="background:var(--md-success-container,#1b3a2d);color:var(--md-on-success-container,#9ef0b3);
+            padding:12px 18px;border-radius:var(--md-shape-sm);margin-bottom:16px;font-size:13px;">
+    ✓ {{ session('success') }}
+</div>
+@endif
+@if(session('error'))
+<div style="background:var(--md-error-container);color:var(--md-on-error-container);
+            padding:12px 18px;border-radius:var(--md-shape-sm);margin-bottom:16px;font-size:13px;">
+    {{ session('error') }}
+</div>
+@endif
+
+{{-- Status filter tabs --}}
+<div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+    @foreach([
+        ''                  => 'All',
+        'draft'             => 'Draft',
+        'pending_approval'  => $isApprover ? 'Awaiting My Approval' : 'Pending Approval',
+        'approved'          => 'Approved',
+        'rejected'          => 'Rejected',
+    ] as $key => $label)
+        <a href="{{ route('service-letters.index', array_filter(['status' => $key])) }}"
+           class="md-btn {{ (string) $status === $key ? 'md-btn--tonal' : 'md-btn--outlined' }}"
+           style="font-size:12px;">{{ $label }}</a>
+    @endforeach
+</div>
+
+<div class="md-card md-card--elevated">
+    <div style="overflow-x:auto;">
+        <table class="md-table">
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Employee</th>
+                    <th>Drafted By</th>
+                    <th style="text-align:center;">Status</th>
+                    <th>Last Updated</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($letters as $l)
+                <tr>
+                    <td class="md-label-md">{{ $l->subject }}</td>
+                    <td class="md-body-sm">{{ $l->employee->display_name ?? '—' }}</td>
+                    <td class="md-body-sm" style="color:var(--md-on-surface-variant);">{{ $l->draftedBy->name ?? '—' }}</td>
+                    <td style="text-align:center;">
+                        <span class="sl-status sl-status-{{ $l->status }}">
+                            {{ ucwords(str_replace('_', ' ', $l->status)) }}
+                        </span>
+                    </td>
+                    <td class="md-body-sm" style="color:var(--md-on-surface-variant);">
+                        {{ $l->updated_at->format('d M Y H:i') }}
+                    </td>
+                    <td>
+                        <a href="{{ route('service-letters.show', $l) }}" class="md-btn md-btn--icon" title="View">&#128065;</a>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="6" class="md-table__empty">
+                        No service letters found.
+                        <a href="{{ route('service-letters.create') }}">Draft one →</a>
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+    <div class="md-card__footer">{{ $letters->links('vendor.pagination.material') }}</div>
+</div>
+
+@endsection
