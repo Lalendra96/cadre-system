@@ -75,7 +75,10 @@ class CarderAiService
         $aiSummary = $this->callLanModel(
             'Summarise this employee service record for an HR Subject Officer. '
             . 'Use only supplied facts. Never infer or invent missing dates. '
-            . 'Return concise plain text.',
+            . 'Do not present system output as Government policy, a circular, '
+            . 'regulation, Establishments Code provision, or an administrative '
+            . 'determination. Clearly preserve uncertainty and return concise '
+            . 'plain text for human review.',
             $facts
         );
 
@@ -111,10 +114,12 @@ class CarderAiService
         ];
 
         $aiDraft = $this->callLanModel(
-            'Draft an official public-sector service letter using only supplied '
-            . 'verified facts. Preserve any [EDIT:] markers for facts not supplied. '
-            . 'Do not invent salary, disciplinary clearance, approvals, or dates. '
-            . 'Return body text only.',
+            'Draft a proposed public-sector service letter using only supplied recorded '
+            . 'facts. Preserve any [EDIT:] markers for facts not supplied. '
+            . 'Do not invent salary, disciplinary clearance, approvals, dates, '
+            . 'government policy, legal authority, circular requirements, or '
+            . 'administrative determinations. Human verification and approval '
+            . 'remain mandatory. Return body text only.',
             $context
         );
 
@@ -228,7 +233,7 @@ class CarderAiService
                     'messages' => [
                         [
                             'role' => 'system',
-                            'content' => 'You are Carder Management local HR assistant. Never invent facts.',
+                            'content' => 'You are Carder Management local HR decision-support assistant. Never invent facts or official authority. Your output is advisory and always requires human verification.',
                         ],
                         [
                             'role' => 'user',

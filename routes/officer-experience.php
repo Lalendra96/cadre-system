@@ -6,6 +6,7 @@ use App\Http\Controllers\EmployeeServicePeriodController;
 use App\Http\Controllers\FeatureManagementController;
 use App\Http\Controllers\IncomingOfficerController;
 use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\GovernanceController;
 use App\Http\Controllers\ServiceLetterController;
 use App\Http\Controllers\ServiceLetterLetterheadController;
 use App\Http\Controllers\ServiceLetterTemplateController;
@@ -326,6 +327,14 @@ Route::middleware('auth')->group(
             }
         );
 
+        Route::get(
+            '/governance',
+            [
+                GovernanceController::class,
+                'index',
+            ]
+        )->name('governance.index');
+
         Route::middleware(
             'role:super_admin'
         )->group(
@@ -349,6 +358,38 @@ Route::middleware('auth')->group(
                 )->name(
                     'admin.features.update'
                 );
+
+                Route::post(
+                    '/governance/profile',
+                    [
+                        GovernanceController::class,
+                        'updateProfile',
+                    ]
+                )->name('governance.profile.update');
+
+                Route::post(
+                    '/governance/business-rules',
+                    [
+                        GovernanceController::class,
+                        'storeRule',
+                    ]
+                )->name('governance.rules.store');
+
+                Route::put(
+                    '/governance/business-rules/{businessRule}',
+                    [
+                        GovernanceController::class,
+                        'updateRule',
+                    ]
+                )->name('governance.rules.update');
+
+                Route::patch(
+                    '/governance/business-rules/{businessRule}/toggle',
+                    [
+                        GovernanceController::class,
+                        'toggleRule',
+                    ]
+                )->name('governance.rules.toggle');
             }
         );
     }

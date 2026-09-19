@@ -581,3 +581,30 @@ Key principles:
 Teaching Hospital Peradeniya
 
 </div>
+
+
+---
+
+# ⚖ Governance & Official Authority
+
+Carder Management is an **internal administrative and decision-support system**. It does not create, replace or interpret Government of Sri Lanka policy or other official authority.
+
+System-generated calculations, forecasts, alerts, recommendations, AI-assisted content, workflow configurations and reports must be verified against the applicable authoritative source before administrative action.
+
+The Governance module records:
+
+- institutional system ownership and decision authority
+- data-controller designation/status
+- technical-maintenance responsibility
+- disclaimer/version information
+- a **Business Rule Register**
+- official source/reference for configured rules
+- effective/review dates
+- institutional approver and approval reference
+- whether a rule is Draft, Institutional, Source-Verified or Advisory
+
+A rule is not treated as source-verified merely because it exists in the software. The institution must record and approve the relevant source/reference.
+
+Where system output conflicts with an applicable Act, regulation, Establishments Code provision, Public Administration circular, Ministry instruction, service minute, Public Service Commission decision or other authoritative document, **the applicable official authority takes precedence**.
+
+AI features remain advisory-only and cannot themselves approve or determine promotions, transfers, retirement actions, disciplinary outcomes or official service certification.

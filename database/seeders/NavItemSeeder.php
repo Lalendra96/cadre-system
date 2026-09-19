@@ -102,6 +102,7 @@ class NavItemSeeder extends Seeder
             ['Administration', 'Subject Codes', 'subject-codes.index', false, ['super_admin'], null],
             ['Administration', '⚙️ Settings', 'admin.settings', false, ['super_admin'], null],
             ['Administration', '🎛️ Feature Management', 'admin.features', false, ['super_admin'], null],
+            ['Administration', '⚖ Governance & Official Authority', 'governance.index', false, ['super_admin'], null],
             ['Administration', '🛡️ Data Quality Rules', 'data-quality.rules', false, ['super_admin'], null],
             ['Administration', '🔒 IP Allowlist', 'ip-allowlist.index', false, ['super_admin'], null],
             ['Administration', '📋 Export Audit', 'export-audit.index', false, ['super_admin'], null],

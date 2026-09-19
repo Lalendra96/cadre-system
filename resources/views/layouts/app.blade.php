@@ -163,6 +163,8 @@
                 </div>
             @endif
 
+            @include('partials.decision-support-notice')
+
             @yield('content')
         </main>
     </div>
