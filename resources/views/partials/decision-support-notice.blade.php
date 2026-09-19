@@ -58,6 +58,17 @@
             >
                 Governance & source register →
             </a>
+
+            <a
+                href="{{ route('incidents.create') }}"
+                style="
+                    margin-left: 12px;
+                    color: var(--md-error);
+                    font-weight: 600;
+                "
+            >
+                Report incorrect output / data issue →
+            </a>
         </div>
     </aside>
 @endif

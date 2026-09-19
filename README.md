@@ -615,3 +615,34 @@ AI features remain advisory-only and cannot themselves approve or determine prom
 The application now includes technical governance controls for institutional ownership, source-referenced business rules, independent human approval of consequential HR actions, configuration and decision audit trails, decision-support labelling, AI capability restrictions, and report/export notices.
 
 **Contractual / controller-processor agreement:** Pending discussion and formal review with the hospital. Carder Management does not claim that a signed development/support, controller/processor, or responsibility-allocation agreement exists until the institution and relevant parties formally approve and execute one.
+
+
+---
+
+# ⚠ Incident & Correction Register
+
+Carder Management includes a dedicated incident/error workflow for reporting, investigating, correcting and closing system or data issues.
+
+The register supports:
+
+- data/record errors
+- calculation/forecast errors
+- workflow/configuration errors
+- report/export issues
+- integration/interface errors
+- security/privacy concerns
+- availability/performance incidents
+- other operational incidents
+- severity and impact classification
+- assignment and target resolution dates
+- root-cause investigation
+- immediate containment actions
+- corrective and preventive actions
+- correction references with before/after summaries
+- independent resolution/closure history
+- reopening if an issue recurs
+- immutable event history and normal application audit logging
+
+All authenticated users can report an incident. Reporters can follow their own incidents. Authorised governance/administrative managers can triage, investigate, record corrections, resolve and close incidents.
+
+The incident register is an operational governance control; it does not replace any mandatory statutory, Ministry, institutional, cyber-security, data-protection or other formal incident-notification procedure that may separately apply.

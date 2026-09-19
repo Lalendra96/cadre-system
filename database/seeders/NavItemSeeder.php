@@ -96,6 +96,7 @@ class NavItemSeeder extends Seeder
             ['My Work', '🌿 My Retirements', 'retirement-projects.index', false, ['subject_officer'], ['canViewEmployees', 'hasAssignedHrPositions']],
             ['My Work', '✉️ Service Letters', 'service-letters.index', false, ['subject_officer'], ['canViewEmployees', 'hasAssignedHrPositions']],
             ['My Work', '✅ My Decision Requests', 'administrative-decisions.index', false, ['subject_officer'], ['canViewEmployees']],
+            ['My Work', '⚠ Incident & Correction Register', 'incidents.index', false, ['subject_officer', 'planning_officer', 'admin_group', 'super_admin'], null],
             ['My Work', 'Vacancy Availability', 'vacancy-availability-letters.index', false, ['subject_officer'], ['canViewEmployees', 'hasAssignedHrPositions']],
             ['My Work', 'Letter Sharing', 'letters.index', false, ['subject_officer'], ['canViewLetters']],
             ['Administration', 'Users', 'users.index', false, ['super_admin'], null],

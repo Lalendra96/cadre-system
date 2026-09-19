@@ -5,6 +5,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeServicePeriodController;
 use App\Http\Controllers\FeatureManagementController;
 use App\Http\Controllers\IncomingOfficerController;
+use App\Http\Controllers\IncidentReportController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\GovernanceController;
 use App\Http\Controllers\AdministrativeDecisionController;
@@ -327,6 +328,86 @@ Route::middleware('auth')->group(
                 );
             }
         );
+
+        Route::get(
+            '/incidents',
+            [
+                IncidentReportController::class,
+                'index',
+            ]
+        )->name('incidents.index');
+
+        Route::get(
+            '/incidents/create',
+            [
+                IncidentReportController::class,
+                'create',
+            ]
+        )->name('incidents.create');
+
+        Route::post(
+            '/incidents',
+            [
+                IncidentReportController::class,
+                'store',
+            ]
+        )->name('incidents.store');
+
+        Route::get(
+            '/incidents/{incidentReport}',
+            [
+                IncidentReportController::class,
+                'show',
+            ]
+        )->name('incidents.show');
+
+        Route::post(
+            '/incidents/{incidentReport}/triage',
+            [
+                IncidentReportController::class,
+                'triage',
+            ]
+        )->name('incidents.triage');
+
+        Route::post(
+            '/incidents/{incidentReport}/investigation',
+            [
+                IncidentReportController::class,
+                'recordInvestigation',
+            ]
+        )->name('incidents.investigation');
+
+        Route::post(
+            '/incidents/{incidentReport}/corrections',
+            [
+                IncidentReportController::class,
+                'recordCorrection',
+            ]
+        )->name('incidents.corrections.store');
+
+        Route::post(
+            '/incidents/{incidentReport}/resolve',
+            [
+                IncidentReportController::class,
+                'resolve',
+            ]
+        )->name('incidents.resolve');
+
+        Route::post(
+            '/incidents/{incidentReport}/close',
+            [
+                IncidentReportController::class,
+                'close',
+            ]
+        )->name('incidents.close');
+
+        Route::post(
+            '/incidents/{incidentReport}/reopen',
+            [
+                IncidentReportController::class,
+                'reopen',
+            ]
+        )->name('incidents.reopen');
 
         Route::get(
             '/administrative-decisions',
