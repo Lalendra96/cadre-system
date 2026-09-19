@@ -1,610 +1,583 @@
 # HIMS PARIKSHA — Carder Management System
 
-> **Hospital Information Management System — Workforce Cadre Module**  
-> Teaching Hospital Peradeniya · Lumin Tech Labs (Pvt) Ltd
+<div align="center">
+
+# 🏥 Carder Management System
+
+### Workforce, Cadre, Employee-Service & Administrative Workflow Management  
+**Teaching Hospital Peradeniya · HIMS PARIKSHA**
+
+![Laravel](https://img.shields.io/badge/Laravel-10.x-FF2D20?logo=laravel&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-8.2%2B-777BB4?logo=php&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14%2B-4169E1?logo=postgresql&logoColor=white)
+![UI](https://img.shields.io/badge/UI-Material%20Design%203-1976D2)
+![Languages](https://img.shields.io/badge/UI-English%20%7C%20සිංහල%20%7C%20தமிழ்-2E7D32)
+![Environment](https://img.shields.io/badge/Deployment-LAN%20Ready-455A64)
+
+**A role-based hospital workforce platform for cadre planning, employee service history, transfers, grade progression, retirement planning, service letters, data quality and administrative intelligence.**
+
+</div>
 
 ---
 
-## Table of Contents
+## ✨ What this system does
 
-1. [Overview](#overview)
-2. [Technology Stack](#technology-stack)
-3. [Role System](#role-system)
-4. [Feature Reference & Access Matrix](#feature-reference--access-matrix)
-   - [Authentication & Security](#authentication--security)
-   - [Dashboard](#dashboard)
-   - [Approved Carder](#approved-carder)
-   - [Monthly Carder Entries](#monthly-carder-entries)
-   - [Submission Deadline Enforcement](#submission-deadline-enforcement)
-   - [Entry Verification Layer](#entry-verification-layer)
-   - [Entry Amendment Workflow](#entry-amendment-workflow)
-   - [Transfer Records](#transfer-records)
-   - [Employee Profiles](#employee-profiles)
-   - [Acting Appointments](#acting-appointments)
-   - [Annual Cadre Review](#annual-cadre-review)
-   - [Unit Types & Units](#unit-types--units)
-   - [Unit Post Allocations](#unit-post-allocations)
-   - [Letter Sharing](#letter-sharing)
-   - [Reports](#reports)
-   - [System Administration](#system-administration)
-   - [Security Controls](#security-controls)
-5. [System Settings Reference](#system-settings-reference)
-6. [Admin Group Category Reference](#admin-group-category-reference)
-7. [Deployment Checklist](#deployment-checklist)
-8. [Default Credentials](#default-credentials)
+Carder Management is a Laravel-based workforce and cadre-management platform designed for a Sri Lankan public-sector hospital environment.
+
+It brings together:
+
+- approved cadre and monthly workforce reporting
+- Employee 360 profiles
+- Subject Officer work allocation
+- Combined Service and cross-agency service history
+- incoming and outgoing officer workflows
+- transfer and acting-appointment management
+- grade progression and increment monitoring
+- retirement planning
+- service-letter generation, review, approval and letterheads
+- trilingual UI support
+- configurable feature toggles
+- privacy-conscious local/offline AI assistance
+- data-quality, reconciliation and workforce-planning dashboards
 
 ---
 
-## Overview
+## 🧭 System at a glance
 
-The Carder Management System is a standalone Laravel 10 module within HIMS PARIKSHA that manages the hospital's approved workforce (cadre). It tracks Ministry of Health–approved headcounts, actual in-position figures per month per subject code, unit-level post allocation, staffing vacancy gaps, and internal letter circulation between Senior Management.
+```mermaid
+flowchart LR
+    A[Subject Officer] --> B[Employee 360]
+    A --> C[Service History]
+    A --> D[Transfers]
+    A --> E[Service Letters]
+    A --> F[Grade / Increment Tasks]
 
-**Project stats:** 44 migrations · 22 models · 28 controllers · 59 blade views · 5 middleware classes
+    B --> G[(PostgreSQL)]
+    C --> G
+    D --> G
+    E --> G
+    F --> G
+
+    G --> H[Planning Officer Dashboard]
+    G --> I[Admin Group Oversight]
+    G --> J[Super Admin Configuration]
+
+    J --> K[Feature Toggles]
+    J --> L[Trilingual UI]
+    J --> M[LAN / Offline AI]
+```
 
 ---
 
-## Technology Stack
+## 👥 Role experience
+
+| Role | Main responsibility | Typical workspace |
+|---|---|---|
+| **Super Admin** | Full configuration, users, security, features, master data | Administration + all modules |
+| **Planning Officer** | Institution-wide workforce planning and cadre oversight | Planning Dashboard |
+| **Admin Group** | Senior-management review, approvals and aggregate oversight | Reports / approvals |
+| **Subject Officer** | Day-to-day employee HR record maintenance for allocated employees | **Today & My Work** |
+
+### Subject Officer visibility model
+
+Subject Officers do **not** automatically see every employee under a position.
+
+Employee-level access is controlled by explicit HR allocation:
+
+```text
+Position responsibility
+        ↓
+Employee HR Allocation
+        ↓
+Subject Officer sees only assigned Employee Profiles
+```
+
+This supports shared positions where multiple Subject Officers divide responsibility for employees.
+
+---
+
+# 🎯 Officer Experience vNext
+
+The current update focuses on making the system easier to use for officers with limited ICT experience while preserving Sri Lankan public-service chronology.
+
+## 1. 🏠 Today & My Work
+
+The Subject Officer home screen prioritises actionable work instead of exposing a large technical menu.
+
+Typical priorities include:
+
+- grade promotions due or approaching
+- increments due / overdue
+- retirement preparation
+- professional-registration expiry
+- incomplete service histories
+- pending employee corrections
+- returned service letters
+- data-quality issues
+- recent employee movements
+- officer workload
+
+---
+
+## 2. 👤 Guided Employee Profile
+
+A simplified step-by-step employee-registration flow:
+
+```text
+👤 Person
+   ↓
+💼 Position
+   ↓
+🏥 Workplace
+   ↓
+📅 Service Dates
+   ↓
+🎖 Career Continuity
+   ↓
+✅ Review & Save
+```
+
+The detailed Employee Profile remains available for advanced editing.
+
+---
+
+## 3. 🏛 Incoming Officer Workflow
+
+Designed for officers such as **Development Officers and other Combined Service officers** transferring from another government institution.
+
+```mermaid
+flowchart TD
+    A[Officer arrives from another agency] --> B[Identify officer]
+    B --> C[Capture previous institution]
+    C --> D[Capture current hospital posting]
+    D --> E[Preserve Public / Combined Service dates]
+    E --> F[Preserve original Current Grade start date]
+    F --> G[Record transfer order]
+    G --> H[Create Employee Profile]
+    H --> I[Create Previous Service Period]
+    H --> J[Create Current Hospital Service Period]
+    H --> K[Create Grade History]
+    H --> L[Create Transfer Record]
+```
+
+### Important principle
+
+**Joining this hospital does not restart the officer's public service or current-grade service.**
+
+The system records these independently:
+
+| Date | Meaning |
+|---|---|
+| Date Joined Public Service | Overall government service continuity |
+| Date Joined Combined Service | Combined Service continuity, where applicable |
+| Current Grade Start Date | Used for grade-progression calculations |
+| Date Reported for Duty to this Institute | Hospital-specific posting date |
+
+---
+
+## 4. 📂 Structured Service History
+
+Each Employee 360 profile can contain multiple service/posting periods.
+
+A service period can capture:
+
+- institution
+- ministry / department
+- service
+- position
+- grade
+- start and end dates
+- movement type
+- transfer/order reference
+- evidence document
+- verification status
+- whether the period counts toward:
+  - service
+  - grade service
+  - pension
+
+### Example
+
+```text
+2021 ───────────────────────── 2025
+District Secretariat
+Development Officer — Grade II
+        │
+        │ Transfer
+        ▼
+2026 ───────────────────────── Present
+Teaching Hospital Peradeniya
+Development Officer — Grade II
+```
+
+The employee's grade-service continuity remains based on the original grade-effective date.
+
+---
+
+## 5. 🎖 Grade Progression
+
+Grade History is the authoritative source for promotion eligibility.
+
+```text
+Current Grade Effective Date
+          +
+Configured Minimum Years in Grade
+          ↓
+Promotion Eligibility Date
+          ↓
+Subject Officer Reminder / Planning Signal
+```
+
+The calculation is **not** reset when the employee transfers to the hospital.
+
+---
+
+## 6. 🔄 Transfer Management
+
+Supported movement categories include:
+
+- Internal Unit Transfer
+- Internal Institutional Transfer
+- Incoming External Transfer
+- Outgoing External Transfer
+- Temporary Attachment
+- Permanent Release
+- Secondment
+- Deputation
+- Reversion
+- Inter-Ministry Transfer
+- Inter-Department Transfer
+- Provincial ↔ Central Service Movement
+- Promotion / Grade Change
+- Appointment
+- Other
+
+Transfer forms require a review confirmation before submission.
+
+---
+
+# ✉️ Service Letter Workflow
+
+The service-letter module now provides a guided workflow with configurable official letterheads.
+
+```mermaid
+flowchart LR
+    A[Select Employee] --> B[Purpose + Language]
+    B --> C[Choose Template]
+    C --> D[Choose Letterhead]
+    D --> E[Generate / Edit Draft]
+    E --> F[Submit to AO]
+    F --> G{Decision}
+    G -->|Approve| H[E-Sign + Official Print]
+    G -->|Reject| I[Return for Correction]
+    I --> E
+```
+
+## Letterhead configuration
+
+Super Admin can configure:
+
+- institution name
+- ministry / department
+- address
+- telephone / fax
+- email / website
+- reference prefix
+- signatory designation
+- header note
+- footer note
+- logo / emblem image
+- default letterhead
+
+Approved letters can be printed in an A4-friendly official layout.
+
+---
+
+# 🌐 Trilingual Interface
+
+The interface framework supports:
+
+- **English**
+- **සිංහල**
+- **தமிழ்**
+
+Language preference can be saved per user.
+
+Current trilingual support is implemented as an expandable Laravel language-file framework so additional screens can be translated progressively without duplicating views.
+
+---
+
+# 🎛 Feature Management
+
+Super Admin can turn optional modules on or off without removing code.
+
+Current feature groups include:
+
+| Feature | Toggle |
+|---|:---:|
+| Service Letters + Letterheads | ✅ |
+| Trilingual UI | ✅ |
+| Service History / Combined Service | ✅ |
+| Grade Progression | ✅ |
+| AI Record Assistant | ✅ |
+| AI Service Letter Assistant | ✅ |
+
+Disabled modules are hidden from navigation and protected at route level where applicable.
+
+---
+
+# ✨ AI Assistance
+
+The AI layer is **advisory only**.
+
+It does not make HR decisions, approve promotions, alter service history or automatically issue official letters.
+
+## AI Record Assistant
+
+Provides a concise employee-record summary using available structured facts.
+
+Typical output highlights:
+
+- current position
+- grade
+- grade-effective date
+- public-service start
+- hospital reporting date
+- service-history completeness
+- missing chronology fields
+
+## AI Service Letter Assistant
+
+Supports drafting from verified Employee Profile information.
+
+### Privacy-first design
+
+```text
+No configured AI endpoint
+        ↓
+Deterministic Offline Assistant
+
+OR
+
+Private LAN endpoint configured
+        ↓
+Local AI Model
+        ↓
+Draft only
+        ↓
+Human review remains mandatory
+```
+
+Only private/LAN endpoints are accepted by the local AI integration.
+
+---
+
+# 📊 Planning Officer Dashboard
+
+Planning Officer views are designed around institution-wide workforce movement and forward pressure.
+
+### Core signals
+
+| Signal | Purpose |
+|---|---|
+| Incoming this year | Workforce arrivals |
+| Outgoing this year | Workforce exits / transfers |
+| Net movement | Incoming minus outgoing |
+| Combined/external arrivals | Cross-agency movement |
+| Outgoing next 90 days | Short-term staffing pressure |
+| Retirements next 12 months | Workforce replacement planning |
+| Grade progression next 12 months | Career-progression workload |
+
+---
+
+# 🧠 Workforce Intelligence
+
+The broader system also includes:
+
+- HR responsibility intelligence
+- ownership history
+- unassigned-position detection
+- duplicate ownership warnings
+- officer workload
+- reassignment queue
+- data-quality monitoring
+- workforce forecast
+- scenario comparison
+- age and retirement exposure
+- employee movements
+- historical workforce register
+- duplicate review
+- bulk corrections
+- application health monitoring
+
+---
+
+# 📋 Core modules
+
+| Area | Main capabilities |
+|---|---|
+| Approved Cadre | Approved posts by position/year |
+| Monthly Entries | In-position workforce submissions |
+| Employee 360 | Central employee HR record |
+| Service History | Multi-institution chronology |
+| Transfers | Incoming, outgoing and internal movements |
+| Grade History | Grade progression continuity |
+| Increments | Increment workflow and reminders |
+| Acting Appointments | Acting-role records |
+| Retirement Project | Retirement preparation |
+| Qualifications | Training / qualification history |
+| Professional Registration | Registration tracking and expiry warnings |
+| Service Letters | Draft → approval → e-sign → print |
+| Data Quality | Missing / inconsistent record detection |
+| Reports | Planning, trends, snapshots and unit breakdowns |
+| Audit | Workforce and administrative audit trails |
+
+---
+
+# 🔐 Security & governance
+
+The system includes:
+
+- role-based access control
+- explicit employee HR allocation
+- feature middleware
+- no hard-delete approach for key HR records
+- audit trails
+- IP allowlist support
+- concurrent-session controls
+- export audit logging
+- offline OTP MFA support
+- configurable field / workflow access
+- document-based service-history verification
+- local-only AI option
+
+---
+
+# 🧱 Technology stack
 
 | Layer | Technology |
 |---|---|
-| Backend | PHP 8.2+, Laravel 10 |
+| Backend | PHP 8.2+, Laravel 10.x |
 | Database | PostgreSQL 14+ |
-| Frontend | Vanilla JavaScript (no framework), Blade templates |
-| UI System | Material Design 3 — Dark theme |
-| Auth | Session-based, OTP force-change, concurrent session lock |
-| Security | IP allowlist (CIDR), export audit log, role middleware, feature gates |
+| Frontend | Blade + Vanilla JavaScript |
+| UI | Material Design-inspired interface |
+| Charts / Dashboards | Server-rendered workforce analytics |
+| Authentication | Laravel session authentication |
+| AI | Offline deterministic assistant or optional private LAN model |
+| Deployment | Hospital LAN / Linux server |
 
 ---
 
-## Role System
+# 🗂 Architecture
 
-The system uses a **multi-role pivot table** (`user_roles`). One account can hold more than one role simultaneously. Role checks use `hasRole()`, `hasAnyRole()`, and `isSuperAdmin()` — never a single `role` column.
+```mermaid
+flowchart TB
+    UI[Blade / Material UI]
+    CTRL[Laravel Controllers]
+    SVC[Domain Services]
+    MODELS[Eloquent Models]
+    DB[(PostgreSQL)]
+    DOCS[Local Document Storage]
+    AI[Optional LAN AI]
 
-### Roles
-
-| Role Key | Label | Purpose |
-|---|---|---|
-| `super_admin` | Super Admin | Full system access. Manages users, settings, security. |
-| `planning_officer` | Planning Officer | Manages approved carder, reviews entries, generates reports. |
-| `admin_group` | Admin Group | Senior management. Reviews letters, verifies entries (if category matches). Sub-divided by **User Category** (see below). |
-| `subject_officer` | Subject Officer | Data entry. Submits monthly entries for their assigned subject codes only. |
-
-### Precedence when roles overlap
-
-When a user holds multiple roles, **elevated roles always take priority**:
-
-```
-Super Admin  >  Admin Group  >  Planning Officer  >  Subject Officer
-```
-
-The `EnsureFeatureAccess` middleware bypasses Subject Officer restrictions entirely for any user who also holds an elevated role. This prevents a multi-role account (e.g. Planning Officer who is also a Subject Officer) from being incorrectly blocked by position-bound guards.
-
----
-
-## Feature Reference & Access Matrix
-
-> **Legend**  
-> ✅ Full access &nbsp; 👁 Read-only &nbsp; ⚙ Configurable &nbsp; ❌ No access &nbsp; 🔑 Category-gated
-
-### Authentication & Security
-
-| Feature | Super Admin | Planning Officer | Admin Group | Subject Officer |
-|---|:---:|:---:|:---:|:---:|
-| Login / Logout | ✅ | ✅ | ✅ | ✅ |
-| Force password change on first login | ✅ | ✅ | ✅ | ✅ |
-| Forgot password (request via system) | ✅ | ✅ | ✅ | ✅ |
-| See forgot-password badge on dashboard | ✅ | ❌ | ❌ | ❌ |
-| Concurrent session protection | ✅ | ✅ | ✅ | ✅ |
-| IP allowlist enforcement | ✅ | ✅ | ✅ | ✅ |
-
-All users are subject to the IP allowlist when enabled, including Super Admin. The only bypass is local loopback (`127.0.0.1`/`::1`).
-
----
-
-### Dashboard
-
-| Feature | Super Admin | Planning Officer | Admin Group | Subject Officer |
-|---|:---:|:---:|:---:|:---:|
-| View dashboard | ✅ | ✅ | ✅ | ✅ |
-| Forgot-password request badge | ✅ | ❌ | ❌ | ❌ |
-| Vacancy alert banner | ✅ | ✅ | ✅ | ❌ |
-| Pending verification count | ✅ | ✅ | 🔑 | ❌ |
-
-> 🔑 Admin Group sees the verification count only if their User Category is designated as a verifier in system settings.
-
----
-
-### Approved Carder
-
-Records the **Ministry of Health–approved** total number of posts per position per year. This is the reference figure against which actual in-position numbers are compared.
-
-> **Director-only writes.** The Director (Admin Group, Director category) and Super Admin are the only users who may create, edit, or disable approved carder records. Planning Officers can view the figures but cannot modify them — the approved carder represents a formal MoH authorisation, not an operational estimate.
-
-| Feature | Super Admin | Planning Officer | Director | Deputy Dir General / Deputy Dir / MO Planning | Other Admin Group | Subject Officer |
-|---|:---:|:---:|:---:|:---:|:---:|:---:|
-| View approved carder list | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
-| Create / edit approved amounts | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| Disable record | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| Re-enable record | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| Print register | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
-
-**Hard deletion is removed.** Disabling a record:
-- Removes it from all reports and vacancy calculations for that year
-- Preserves the complete audit trail (who created it, who disabled it, why)
-- Requires a written reason of at least 10 characters
-- Can be reversed by the Director at any time
-- Is logged with user, timestamp, and reason in the audit log
-
----
-
-### Monthly Carder Entries
-
-Subject officers submit actual in-position figures monthly per subject code and position. Data includes males, females, transferred in/out, no-pay leave.
-
-| Feature | Super Admin | Planning Officer | Admin Group | Subject Officer |
-|---|:---:|:---:|:---:|:---:|
-| View own entries | ✅ | ✅ | ❌ | ✅ ¹ |
-| Create new entry | ✅ | ✅ | ❌ | ✅ ¹ |
-| Edit entry | ✅ | ✅ | ❌ | ✅ ¹ |
-| Delete entry | ✅ | ✅ | ❌ | ✅ ¹ |
-| Copy from previous month (AJAX) | ✅ | ✅ | ❌ | ✅ ¹ |
-| Check deadline status (AJAX) | ✅ | ✅ | ❌ | ✅ ¹ |
-
-> ¹ Subject Officers can only access entries for subject codes **assigned to their account** and linked to a position. Officers with no position-bound subject code cannot access this section.
-
-**Validation rules enforced:**
-- One entry per `(subject_code, position, year, month)` — duplicate submissions rejected
-- Deadline enforcement: entries locked after the configured cutoff date
-- Sanity check: total in-post > 120% of approved carder triggers a data-quality warning
-
----
-
-### Submission Deadline Enforcement
-
-Configurable monthly deadline after which entries for a given period are locked. Managed by Super Admin in **Admin → Settings**.
-
-| Setting | Default | Description |
-|---|---|---|
-| `deadline_enforcement_enabled` | `true` | Toggle deadline locking on/off |
-| `deadline_day` | `15` | Day of the **following** month by which entries are due (1–28) |
-| `deadline_grace_days` | `0` | Extra days of grace after the deadline day |
-
-**Example:** With `deadline_day = 15`, entries for **March** are due by **15 April**. After that, the entry is locked and officers must request an amendment.
-
-| Feature | Super Admin | Planning Officer | Admin Group | Subject Officer |
-|---|:---:|:---:|:---:|:---:|
-| Configure deadline settings | ✅ | ❌ | ❌ | ❌ |
-| View deadline status on entry form | ✅ | ✅ | ❌ | ✅ |
-| Submit after deadline | ❌ ² | ❌ ² | ❌ | ❌ |
-
-> ² Deadline enforcement applies to all roles. To accept a late entry, the Super Admin can temporarily disable `deadline_enforcement_enabled`.
-
----
-
-### Entry Verification Layer
-
-Optional workflow requiring a designated verifier to approve submissions before they appear in reports. Disabled by default.
-
-| Feature | Super Admin | Planning Officer | Admin Group | Subject Officer |
-|---|:---:|:---:|:---:|:---:|
-| Configure verification settings | ✅ | ❌ | ❌ | ❌ |
-| View pending-verification queue | ✅ | ✅ ³ | 🔑 | ❌ |
-| Verify (approve) an entry | ✅ | ✅ ³ | 🔑 | ❌ |
-| Reject an entry (send back) | ✅ | ✅ ³ | 🔑 | ❌ |
-
-> ³ Depends on `entry_verifier_role` setting.  
-> 🔑 Admin Group users can verify only if their User Category is in the `entry_verifier_category_ids` list.
-
-**Verifier role options (Admin → Settings):**
-
-| Option | Who can verify |
-|---|---|
-| Planning Officer | Any user with the `planning_officer` role |
-| Super Admin only | Super Admin account exclusively |
-| Specific Categories | Admin Group users whose category is ticked (e.g. Chief Clerk, Medical Officer Planning) — multiple categories may be selected simultaneously |
-
-Super Admin **always** bypasses the verifier check regardless of configuration.
-
----
-
-### Entry Amendment Workflow
-
-When an entry is locked (after verification or past deadline), the submitting officer can request an amendment. A supervisor then approves (unlocks for resubmission) or rejects.
-
-| Feature | Super Admin | Planning Officer | Admin Group | Subject Officer |
-|---|:---:|:---:|:---:|:---:|
-| Request amendment on own entry | ✅ | ✅ | ❌ | ✅ |
-| View amendment request queue | ✅ | ✅ | 🔑 | ❌ |
-| Approve amendment (unlock entry) | ✅ | ✅ | 🔑 | ❌ |
-| Reject amendment request | ✅ | ✅ | 🔑 | ❌ |
-
-> 🔑 Same category-gate as Verification Layer applies.
-
-**Amendment status flow:**
-
-```
-submitted → amendment_requested → [approved] → submitted (re-editable)
-                                → [rejected] → submitted (unchanged)
+    UI --> CTRL
+    CTRL --> SVC
+    CTRL --> MODELS
+    SVC --> MODELS
+    MODELS --> DB
+    CTRL --> DOCS
+    SVC -. optional .-> AI
 ```
 
 ---
 
-### Transfer Records
+# 🚀 Deployment
 
-Individual transfer events linked to a monthly entry (instead of just aggregate `transferred_in`/`transferred_out` counts). Tracks who transferred, direction, type, from/to location, and effective date.
-
-| Feature | Super Admin | Planning Officer | Admin Group | Subject Officer |
-|---|:---:|:---:|:---:|:---:|
-| View all transfer records | ✅ | ✅ | ❌ | ✅ |
-| Create transfer record | ✅ | ✅ | ❌ | ✅ |
-| Edit transfer record | ✅ | ✅ | ❌ | ✅ |
-| Delete transfer record | ✅ | ✅ | ❌ | ✅ |
-| Filter by direction / date range | ✅ | ✅ | ❌ | ✅ |
-
-**Transfer types:** Permanent · Temporary · Deputation · Secondment
-
----
-
-### Employee Profiles
-
-Individual employee records linked to a subject code, position, and unit. Used as the baseline for unit-wise breakdown reporting and retirement projections.
-
-| Feature | Super Admin | Planning Officer | Admin Group | Subject Officer |
-|---|:---:|:---:|:---:|:---:|
-| View employee list | ✅ | ✅ | ❌ | ✅ ¹ |
-| Create / edit employee profile | ✅ | ✅ | ❌ | ✅ ¹ |
-| Delete employee profile | ✅ | ✅ | ❌ | ✅ ¹ |
-
-> ¹ Subject Officers see only employees under their assigned subject codes. Access also requires `can_view_employees = true` on their account.
-
-Key fields tracked: Pay No., name, gender, date of birth, date of appointment, retirement age, position, subject code, unit.
-
----
-
-### Acting Appointments
-
-Records officers performing duties in a position above their substantive grade. Prevents double-counting in headcount reports.
-
-| Feature | Super Admin | Planning Officer | Admin Group | Subject Officer |
-|---|:---:|:---:|:---:|:---:|
-| View acting appointments | ✅ | ✅ | ✅ | ✅ |
-| Create acting appointment | ✅ | ✅ | ❌ | ✅ |
-| Edit / end acting appointment | ✅ | ✅ | ❌ | ✅ |
-| Delete acting appointment | ✅ | ✅ | ❌ | ✅ |
-
-**Route group for CRUD:** `role:subject_officer,super_admin,planning_officer`  
-**Route for view:** `role:super_admin,admin_group,planning_officer`
-
----
-
-### Annual Cadre Review
-
-Structured workflow for proposing changes to the approved cadre for the following year. Routes through Director and MoH approval before being applied.
-
-| Feature | Super Admin | Planning Officer | Admin Group | Subject Officer |
-|---|:---:|:---:|:---:|:---:|
-| View proposals | ✅ | ✅ | ✅ | ❌ |
-| Create draft proposal | ✅ | ✅ | ✅ | ❌ |
-| Edit draft | ✅ | ✅ | ✅ | ❌ |
-| Delete draft | ✅ | ✅ | ✅ | ❌ |
-| Submit for Director approval | ✅ | ✅ | ✅ | ❌ |
-| Approve / reject (Director) | ✅ | ✅ | ✅ | ❌ |
-| Mark as submitted to MoH | ✅ | ✅ | ✅ | ❌ |
-| Mark as MoH-approved | ✅ | ✅ | ✅ | ❌ |
-| Apply approved proposal | ✅ | ✅ | ✅ | ❌ |
-
-**Proposal lifecycle:**
-
-```
-draft → submitted → director_approved → moh_submitted → approved
-                 └──────────────────────────────────→ rejected
-```
-
-**Applying** an approved proposal creates new `approved_carders` rows for the proposal year, updating the reference headcount used in all reports.
-
-**Validation rules enforced:**
-- Each position may appear only once per proposal
-- Reductions > 20% of current approved require a per-item justification
-- Setting a position to zero posts requires justification
-- At least one item must show a net change
-
----
-
-### Unit Types & Units
-
-Classifies hospital organisational units for structured reporting.
-
-| Feature | Super Admin | Planning Officer | Admin Group | Subject Officer |
-|---|:---:|:---:|:---:|:---:|
-| View unit types | ✅ | ✅ | ❌ | ❌ |
-| Create / edit unit types | ✅ | ✅ | ❌ | ❌ |
-| Assign units to a type | ✅ | ✅ | ❌ | ❌ |
-| Delete unit type | ✅ | ✅ | ❌ | ❌ |
-| View units | ✅ | ✅ | ❌ | ❌ |
-| Create / edit units | ✅ | ✅ | ❌ | ❌ |
-
-**Seeded unit types:** Ward · Department · OPD Clinic · Theatre · ICU / HDU · Laboratory · Pharmacy · Radiology · Administration
-
----
-
-### Unit Post Allocations
-
-Lets the Planning Officer or Medical Officer Planning directly enter the planned post count and current headcount per unit per position per year — for example: *Ward 01: Sister I × 1, Nursing Officer × 10, Staff Nurse × 5*.
-
-| Feature | Super Admin | Planning Officer | Admin Group | Subject Officer |
-|---|:---:|:---:|:---:|:---:|
-| View allocation index | ✅ | ✅ | ✅ | ❌ |
-| Edit allocations for a unit | ✅ | ✅ | ✅ | ❌ |
-| Save / update allocations | ✅ | ✅ | ✅ | ❌ |
-
-**Two fields per unit × position cell:**
-
-| Field | Meaning |
-|---|---|
-| Allocated Posts | Planned/approved posts for this unit & position (management decision) |
-| Actual In Post | Current headcount as known by the Planning Officer |
-
-The **Unit Breakdown Report** uses these figures as its primary data source when available, falling back to employee profile counts for cells without allocation data.
-
-**Validation:** `actual_in_post` more than 50% above `allocated_posts` requires a note (catches data entry errors before save).
-
-**UX features:** Enter key navigates down the column for fast keyboard entry; live vacancy and fill-rate update as you type; unsaved-changes warning on navigation.
-
----
-
-### Letter Sharing
-
-Subject Officers can upload documents (PDF/Word/images) and share them with selected Senior Management officers for review. Each recipient reviews and records a decision individually.
-
-| Feature | Super Admin | Planning Officer | Admin Group | Subject Officer |
-|---|:---:|:---:|:---:|:---:|
-| Create and share a letter | ❌ | ❌ | ❌ | ✅ ⁴ |
-| View own letters (inbox) | ❌ | ❌ | ✅ ⁵ | ✅ |
-| Download / preview attachment | ✅ | ✅ | ✅ ⁵ | ✅ |
-| Mark letter as reviewed | ❌ | ❌ | ✅ ⁵ | ❌ |
-| Delete letter | ✅ | ❌ | ❌ | ✅ ⁶ |
-
-> ⁴ Subject Officers with `can_view_letters = true` on their account.  
-> ⁵ Admin Group users whose User Category has `can_receive_letters = true`.  
-> ⁶ Only if no recipient has read it yet.
-
-**Eligible recipient categories** (configurable per category in Admin → User Categories):
-
-| Category | Receives Letters (default) |
-|---|:---:|
-| Deputy Director General | ✅ |
-| Director | ✅ |
-| Deputy Director (I–N) | ✅ |
-| Administrative Officer / Hospital Secretary | ✅ |
-| Chief Clerk | ❌ |
-| Medical Officer Planning | ✅ |
-| Chief Accountant | ✅ |
-
-> The `can_receive_letters` flag is editable per category by Super Admin with no code deployment.
-
-**Letter recipient picker:** Interactive person-card grid with category filter pills, live search, click-to-select, and a selected-recipients chip strip. All downloads are audit-logged.
-
----
-
-### Reports
-
-All report routes require the user to be **Super Admin, Planning Officer, or Admin Group**.
-
-| Report | URL | Super Admin | Planning Officer | Admin Group | Subject Officer |
-|---|---|:---:|:---:|:---:|:---:|
-| Planning Summary | `/planning/summary` | ✅ | ✅ | ❌ | ❌ |
-| Officer Submission Rate | `/reports/officer-submissions` | ✅ | ❌ | ✅ | ❌ |
-| Report Summary | `/reports/summary` | ✅ | ❌ | ✅ | ❌ |
-| 12-Month Trend | `/reports/trend` | ✅ | ✅ | ✅ | ❌ |
-| Year-on-Year Comparison | `/reports/yoy` | ✅ | ✅ | ✅ | ❌ |
-| Historical Snapshot | `/reports/snapshot` | ✅ | ✅ | ✅ | ❌ |
-| Retirement Projections | `/reports/retirement-projections` | ✅ | ✅ | ✅ | ❌ |
-| Unit-wise Breakdown | `/reports/unit-breakdown` | ✅ | ✅ | ✅ | ❌ |
-| MoH CSV Export | `/reports/export/moh-csv` | ✅ | ✅ | ✅ | ❌ |
-| MoH Printable Report | `/reports/export/moh-print` | ✅ | ✅ | ✅ | ❌ |
-| Carder Register Print | `/reports/export/carder-register` | ✅ | ✅ | ✅ | ❌ |
-| Audit Log | `/audit-logs` | ✅ | ❌ | ✅ | ❌ |
-
-#### Report Descriptions
-
-**Planning Summary** — Approved vs actual per position with fill-rate bars and KPIs. Designed for the Planning Officer's daily review.
-
-**Officer Submission Rate** — 6-month grid showing which subject officers have submitted, carried forward, or missed entries. Identifies gaps before deadlines.
-
-**12-Month Trend** — Line chart of in-position vs approved for a selected position across all 12 months of a chosen year.
-
-**Year-on-Year Comparison** — Side-by-side approved and in-position figures for two selected years at a chosen month. Shows ▲/▼ change per position.
-
-**Historical Snapshot** — Point-in-time "as at date X" view with carry-forward applied. Generates a printable/exportable record that a Director can sign.
-
-**Retirement Projections** — Lists employees retiring within a configurable horizon (6/12/24/36 months). Grouped as Overdue / Critical / Soon / Upcoming using `date_of_birth` and `retirement_age` from employee profiles.
-
-**Unit-wise Breakdown** — Matrix of positions × units showing actual headcount, vacancy, and fill rate. Uses Unit Post Allocations as primary source, falls back to employee profile counts. Vacancy alert strip highlights positions exceeding the configured threshold. Filterable by unit type and position.
-
-**MoH CSV Export** — Downloads a properly formatted CSV with period header, position rows, and totals — ready to upload to the Ministry portal without reformatting.
-
-**MoH Printable Report** — A4 printable HTML table that auto-triggers `window.print()`. Includes an authorised-signature line for official submission.
-
-**Carder Register Print** — A4-landscape printable register showing each position, its approved amount, linked subject codes, and assigned officers.
-
----
-
-### System Administration
-
-| Feature | Super Admin | Planning Officer | Admin Group | Subject Officer |
-|---|:---:|:---:|:---:|:---:|
-| User management (CRUD) | ✅ | ❌ | ❌ | ❌ |
-| User categories (CRUD) | ✅ | ❌ | ❌ | ❌ |
-| Subject codes (CRUD) | ✅ | ❌ | ❌ | ❌ |
-| Positions (CRUD) | ✅ | ✅ | ❌ | ❌ |
-| Units (CRUD) | ✅ | ✅ | ❌ | ❌ |
-| Unit types (CRUD) | ✅ | ✅ | ❌ | ❌ |
-| System settings | ✅ | ❌ | ❌ | ❌ |
-| IP allowlist management | ✅ | ❌ | ❌ | ❌ |
-| Export audit log viewer | ✅ | ❌ | ❌ | ❌ |
-| Reset any user's password | ✅ | ❌ | ❌ | ❌ |
-
----
-
-### Security Controls
-
-Three security controls are enforced at the middleware layer and configurable by Super Admin.
-
-#### Security 16 — Concurrent Session Prevention
-
-Each user account has one valid session at a time. Logging in from a new browser invalidates all previous sessions; the displaced session sees an "ended because you signed in from another device" message on next request.
-
-| Setting | Default |
-|---|---|
-| `concurrent_session_lock_enabled` | `true` |
-
-#### Security 17 — IP Allowlist
-
-When enabled, only requests from allowlisted CIDR ranges are accepted. IPv4 and IPv6 supported. Loopback (`127.0.0.1`/`::1`) is always permitted.
-
-| Feature | Super Admin | Planning Officer | Admin Group | Subject Officer |
-|---|:---:|:---:|:---:|:---:|
-| Manage IP allowlist | ✅ | ❌ | ❌ | ❌ |
-| Subject to IP enforcement | ✅ ⁷ | ✅ ⁷ | ✅ ⁷ | ✅ ⁷ |
-
-> ⁷ All roles are subject to IP enforcement when enabled — there is no bypass for Super Admin. If the Super Admin's IP is not in the allowlist, they must add it via server-side database access before enabling.
-
-| Setting | Default |
-|---|---|
-| `ip_allowlist_enabled` | `false` |
-
-#### Security 18 — Export Audit Log
-
-Every file download and data export is recorded with user, export type, filename, resource reference, IP address, and timestamp.
-
-**Audited events:**
-- Letter attachment downloads and previews
-- MoH CSV export
-- MoH printable report
-- Carder register print
-- Retirement projections export
-- Unit allocation updates
-- System settings changes
-
-| Feature | Super Admin | Planning Officer | Admin Group | Subject Officer |
-|---|:---:|:---:|:---:|:---:|
-| View audit log | ✅ | ❌ | ❌ | ❌ |
-| Filter by type / user / date | ✅ | ❌ | ❌ | ❌ |
-| Subject to audit logging | ✅ | ✅ | ✅ | ✅ |
-
-| Setting | Default |
-|---|---|
-| `export_audit_enabled` | `true` |
-
----
-
-## System Settings Reference
-
-All settings are managed by Super Admin at **Admin → Settings** (`/admin/settings`).
-
-| Group | Key | Type | Default | Description |
-|---|---|---|---|---|
-| deadlines | `deadline_enforcement_enabled` | boolean | `true` | Lock entries after deadline |
-| deadlines | `deadline_day` | integer | `15` | Day of following month entries are due (1–28) |
-| deadlines | `deadline_grace_days` | integer | `0` | Grace days after deadline day |
-| verification | `entry_verification_required` | boolean | `false` | Require verifier approval before entries appear in reports |
-| verification | `entry_verifier_role` | string | `planning_officer` | `planning_officer` \| `super_admin` \| `category` |
-| verification | `entry_verifier_category_ids` | json | `[]` | Array of UserCategory IDs when role = `category` |
-| alerts | `vacancy_alert_enabled` | boolean | `true` | Show vacancy alerts on dashboards |
-| alerts | `vacancy_alert_threshold_pct` | integer | `20` | Alert when vacancy % ≥ this value |
-| security | `concurrent_session_lock_enabled` | boolean | `true` | One active session per user |
-| security | `ip_allowlist_enabled` | boolean | `false` | Enforce CIDR IP allowlist |
-| security | `export_audit_enabled` | boolean | `true` | Log all data exports and downloads |
-
----
-
-## Admin Group Category Reference
-
-User Categories define the sub-role of each Admin Group member. Managed at **Admin → User Categories**.
-
-| Category | Sort Order | Receives Letters | Notes |
-|---|:---:|:---:|---|
-| Deputy Director General | 10 | ✅ | |
-| Director | 20 | ✅ | |
-| Deputy Director (I–N) | 30 | ✅ | Multiple officers share one category; each appears individually as a letter recipient |
-| Administrative Officer / Hospital Secretary | 40 | ✅ | |
-| Chief Clerk | 50 | ❌ | Not a letter recipient by default; toggle per institution |
-| Medical Officer Planning | 60 | ✅ | Can be designated as entry verifier in System Settings |
-| Chief Accountant | 70 | ✅ | |
-
-> The `can_receive_letters` flag and `sort_order` are editable per category by Super Admin. Changes take effect immediately with no code deployment.
-
----
-
-## Deployment Checklist
+After pulling the current vNext branch/update:
 
 ```bash
-# 0. PDF export support (required for Reports → Export PDF buttons)
-composer require barryvdh/laravel-dompdf
-php artisan vendor:publish --provider="Barryvdh\DomPDF\ServiceProvider"
-
-# 1. Run all migrations (000001–000047)
 php artisan migrate
-
-# 2. Seed core data
-php artisan db:seed --class=UserCategorySeeder   # 7 Admin Group categories
-php artisan db:seed --class=SuperAdminSeeder      # creates admin@hims.local
-
-# 3a. FOR DEV / DEMO / TRAINING environments ONLY — fictional test data:
-php artisan db:seed --class=DummyDataSeeder
-#     ⚠ This seeder hard-aborts if it detects real production data already
-#     present (57+ real positions or 8+ real subject codes), to prevent
-#     corrupting the official establishment register. Do not force-run it
-#     against a production database.
-
-# 3b. FOR PRODUCTION — real data sourced from official MoH Excel registers:
-php artisan db:seed --class=ApprovedCarderSeeder      # 57 real positions + approved cadre
-php artisan db:seed --class=SubjectCodeOfficerSeeder  # 30 real subject codes + officers
-php artisan db:seed --class=MonthlyEntrySeeder        # real headcount snapshot
-
-# 4. Register middleware in app/Http/Kernel.php (if not already done)
-# Add to $routeMiddleware:
-#   'feature' => \App\Http\Middleware\EnsureFeatureAccess::class,
-#   'role'    => \App\Http\Middleware\EnsureUserRole::class,
+php artisan db:seed --class=NavItemSeeder
+php artisan storage:link
+php artisan optimize:clear
 ```
 
-**Environment variables to set in `.env`:**
+`storage:link` is required for uploaded Service Letter letterhead logos.
+
+For production deployment also ensure:
 
 ```dotenv
 APP_ENV=production
 APP_DEBUG=false
+
 DB_CONNECTION=pgsql
 DB_HOST=127.0.0.1
 DB_PORT=5432
-DB_DATABASE=hims_carder
+DB_DATABASE=carder
 DB_USERNAME=...
 DB_PASSWORD=...
+
 SESSION_DRIVER=database
-SESSION_LIFETIME=120
 ```
 
 ---
 
-## Default Credentials
+# 🧪 Recommended verification
 
-> ⚠ **Change immediately after first login.** All seeded accounts have `force_password_change = true`.
+After deployment, validate these workflows:
 
-| Account | Email | Password | Role |
-|---|---|---|---|
-| Super Admin | `admin@hims.local` | `ChangeMe@123` | `super_admin` |
-| Director | `director@hims.local` | `Password@123` | `admin_group` |
-| Deputy Director I | `deputy.director1@hims.local` | `Password@123` | `admin_group` |
-| Deputy Director II | `deputy.director2@hims.local` | `Password@123` | `admin_group` |
-| Deputy Director III | `deputy.director3@hims.local` | `Password@123` | `admin_group` |
-| Admin Officer | `admin.officer@hims.local` | `Password@123` | `admin_group` |
-| Chief Clerk | `chief.clerk@hims.local` | `Password@123` | `admin_group` |
-| Chief Accountant | `chief.accountant@hims.local` | `Password@123` | `admin_group` |
-| Deputy Director General | `ddg@hims.local` | `Password@123` | `admin_group` |
-| Medical Officer Planning | `mop@hims.local` | `Password@123` | `admin_group` |
-| Planning Officer | `planning@hims.local` | `Password@123` | `planning_officer` |
-| Subject Officers (×30) | `officer-EA@hims.local` … | `Password@123` | `subject_officer` |
+1. Subject Officer only sees explicitly allocated employees.
+2. Register an incoming Development Officer with:
+   - Public Service start in 2021
+   - Grade II start in 2021
+   - Hospital reporting date in 2026
+3. Confirm Employee 360 shows both previous and current service periods.
+4. Confirm promotion calculations continue from the **2021 grade-effective date**, not 2026.
+5. Generate a Service Letter with an institutional letterhead.
+6. Submit to Administrative Officer.
+7. Approve, e-sign and print.
+8. Switch interface between English / Sinhala / Tamil.
+9. Disable a feature in Feature Management and confirm its navigation entry disappears.
+10. Test AI with no LAN endpoint configured and confirm the offline assistant still works.
 
 ---
 
-*HIMS PARIKSHA Carder Management System — Loons Lab (Pvt) Ltd*  
-*Deployed at Teaching Hospital Peradeniya*
+# 📚 Project documentation
+
+| Document | Purpose |
+|---|---|
+| [INSTALLATION.md](INSTALLATION.md) | Installation and server setup |
+| [SRI_LANKA_OFFICER_WORKFLOW_UPDATE.md](SRI_LANKA_OFFICER_WORKFLOW_UPDATE.md) | Sri Lankan officer workflow implementation |
+| [OFFICER_EXPERIENCE_VNEXT_STATUS.md](OFFICER_EXPERIENCE_VNEXT_STATUS.md) | vNext feature status |
+
+---
+
+# 🧩 Design principles
+
+> **Self-explanatory before feature-dense.**
+
+The UI is being progressively designed so that an officer should understand what to do from the screen itself, without needing technical training.
+
+Key principles:
+
+- task-oriented navigation
+- clear action language
+- guided workflows
+- review screens before irreversible actions
+- preserve entered data after validation errors
+- avoid exposing unnecessary technical fields
+- separate historic facts from current hospital data
+- explicit evidence and verification state
+- no AI-generated fact should bypass human review
+
+---
+
+<div align="center">
+
+### HIMS PARIKSHA — Carder Management System
+
+**Workforce continuity · Administrative clarity · Better planning**
+
+Teaching Hospital Peradeniya
+
+</div>
