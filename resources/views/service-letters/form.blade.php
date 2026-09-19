@@ -1,165 +1,31 @@
 @extends('layouts.app')
-@section('title', 'New Service Letter')
+@php($draft = $serviceLetter ?? null)
+@section('title',$draft ? 'Edit Service Letter' : __('ui.new_service_letter'))
 @section('content')
-
-<div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
-    <a href="{{ route('service-letters.index') }}" class="md-btn md-btn--icon">&#8592;</a>
-    <div>
-        <h2 class="md-headline-sm">New Service Letter</h2>
-        <p class="md-body-sm" style="color:var(--md-on-surface-variant);">
-            Draft a letter for one of your assigned employees. It will be saved as a draft —
-            submit it for AO approval from the letter's detail page when you're ready.
-        </p>
-    </div>
+<div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:16px;flex-wrap:wrap"><div><h2 class="md-headline-sm">✉️ {{ $draft ? 'Edit Service Letter' : __('ui.new_service_letter') }}</h2><p class="md-body-sm" style="color:var(--md-on-surface-variant)">Guided workflow: employee → purpose/language → template → letterhead → review → approval.</p></div><a href="{{ route('service-letters.index') }}" class="md-btn md-btn--outlined">← {{ __('ui.service_letters') }}</a></div>
+@if($errors->any())<div class="md-card" style="padding:12px;margin-bottom:12px;border:1px solid var(--md-error)"><strong>Please correct the following:</strong><ul>@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul></div>@endif
+@if($employees->isEmpty())<div class="workforce-panel"><h3>No allocated employees available</h3><p>You can only create a service letter for an Employee Profile allocated to you.</p></div>@else
+<form method="POST" action="{{ $draft ? route('service-letters.update',$draft) : route('service-letters.store') }}" id="letterForm">@csrf @if($draft)@method('PUT')@endif
+<div class="workforce-panel"><div class="panel-title-row"><div><div class="panel-title">1. Employee & purpose</div><div class="panel-subtitle">Choose the employee first. Only records within your authorised scope are shown.</div></div></div>
+<div class="md-form-row" style="margin-top:12px"><div class="md-form-group"><label class="md-label">{{ __('ui.employee') }} *</label><select class="md-select" name="employee_id" id="employee_select" required><option value="">— Select employee —</option>@foreach($employees as $emp)<option value="{{ $emp->id }}" {{ (string)old('employee_id',$draft?->employee_id ?? $selectedEmployeeId)===(string)$emp->id?'selected':'' }}>{{ $emp->display_name }} ({{ $emp->pay_no ?: 'no pay no.' }}) — {{ $emp->position?->title }}</option>@endforeach</select></div>
+<div class="md-form-group"><label class="md-label">{{ __('ui.purpose') }} *</label><select class="md-select" name="purpose" id="purpose_select" required>@foreach(['service_confirmation'=>'Service Confirmation','experience'=>'Experience / Detailed Service','salary_employment'=>'Salary / Employment Verification','visa_embassy'=>'Embassy / Visa','foreign_employment'=>'Foreign Employment','higher_studies'=>'Higher Studies / University','scholarship'=>'Scholarship / Fellowship','professional_registration'=>'Professional Registration','bank'=>'Bank / Financial Institution','transfer_release'=>'Transfer / Release','retirement'=>'Retirement / Pension','other'=>'Other'] as $k=>$v)<option value="{{ $k }}" {{ old('purpose',$draft?->purpose)===$k?'selected':'' }}>{{ $v }}</option>@endforeach</select></div>
+<div class="md-form-group"><label class="md-label">{{ __('ui.language') }} *</label><select class="md-select" name="language" id="language_select" required><option value="en" {{ old('language',$draft?->language ?? auth()->user()->locale ?? 'en')==='en'?'selected':'' }}>English</option><option value="si" {{ old('language',$draft?->language)==='si'?'selected':'' }}>සිංහල</option><option value="ta" {{ old('language',$draft?->language)==='ta'?'selected':'' }}>தமிழ்</option></select></div></div></div>
+<div class="workforce-panel" style="margin-top:16px"><div class="panel-title-row"><div><div class="panel-title">2. Template & official header</div><div class="panel-subtitle">Templates are filtered by the selected letter language.</div></div></div>
+<div class="md-form-row" style="margin-top:12px"><div class="md-form-group"><label class="md-label">{{ __('ui.template') }}</label><select class="md-select" name="template_id" id="template_select"><option value="">— Write from scratch / AI-assisted —</option>@foreach($templates as $t)<option value="{{ $t->id }}" data-language="{{ $t->language }}" {{ old('template_id',$draft?->template_id)==$t->id?'selected':'' }}>{{ $t->name }} ({{ \App\Models\ServiceLetterTemplate::LANGUAGES[$t->language] ?? $t->language }})</option>@endforeach</select></div>
+<div class="md-form-group"><label class="md-label">{{ __('ui.letterhead') }} *</label><select class="md-select" name="letterhead_id" required>@foreach($letterheads as $l)<option value="{{ $l->id }}" {{ old('letterhead_id',$draft?->letterhead_id ?? optional($letterheads->firstWhere('is_default',true))->id)==$l->id?'selected':'' }}>{{ $l->name }}{{ $l->is_default?' — Default':'' }}</option>@endforeach</select></div>
+<div class="md-form-group"><label class="md-label">Copy / marking</label><select class="md-select" name="copy_type">@foreach(\App\Models\ServiceLetter::COPY_TYPES as $k=>$v)<option value="{{ $k }}" {{ old('copy_type',$draft?->copy_type ?? 'original')===$k?'selected':'' }}>{{ $v }}</option>@endforeach</select></div></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" id="generateBtn" class="md-btn md-btn--outlined">⚡ {{ __('ui.generate_template') }}</button>@if(\App\Services\FeatureToggleService::enabled('ai_service_letter_assistant'))<button type="button" id="aiBtn" class="md-btn md-btn--tonal">✨ {{ __('ui.ai_assist') }}</button>@endif<span id="genStatus" class="md-body-sm" style="align-self:center"></span></div></div>
+<div class="workforce-panel" style="margin-top:16px"><div class="panel-title-row"><div><div class="panel-title">3. Recipient & reference</div><div class="panel-subtitle">Optional. Use exactly as shown on the official correspondence/file.</div></div></div><div class="md-form-row" style="margin-top:12px"><div class="md-form-group"><label class="md-label">{{ __('ui.recipient') }}</label><input class="md-input" name="recipient_name" value="{{ old('recipient_name',$draft?->recipient_name) }}" placeholder="e.g. Visa Officer / Director"></div><div class="md-form-group"><label class="md-label">Recipient address / institution</label><input class="md-input" name="recipient_address" value="{{ old('recipient_address',$draft?->recipient_address) }}"></div><div class="md-form-group"><label class="md-label">{{ __('ui.reference') }}</label><input class="md-input" name="reference_no" value="{{ old('reference_no',$draft?->reference_no) }}" placeholder="Official file/reference number"></div></div></div>
+<div class="workforce-panel" style="margin-top:16px"><div class="panel-title-row"><div><div class="panel-title">4. Review the letter</div><div class="panel-subtitle">Generated or AI-assisted text is only a draft. Verify every statement before approval.</div></div></div>
+<div class="md-form-group" style="margin-top:12px"><label class="md-label">{{ __('ui.subject') }} *</label><input class="md-input" name="subject" id="subject_input" maxlength="200" required value="{{ old('subject',$draft?->subject) }}"></div>
+<div class="md-form-group"><label class="md-label">{{ __('ui.letter_body') }} *</label><textarea class="md-input" name="rendered_body" id="body_textarea" rows="18" required>{{ old('rendered_body',$draft?->rendered_body) }}</textarea><div class="md-field-hint">Do not approve placeholders such as [EDIT: …] until they are completed or deliberately removed.</div></div>
+<div class="md-form-group"><label class="md-label">Optional AI drafting instruction</label><input class="md-input" id="ai_instructions" maxlength="500" placeholder="e.g. Address to the Australian High Commission; keep the wording concise"></div>
 </div>
-
-@if($errors->any())
-<div style="background:var(--md-error-container);color:var(--md-on-error-container);
-            padding:12px 18px;border-radius:var(--md-shape-sm);margin-bottom:16px;font-size:13px;">
-    <ul style="margin:0;padding-left:16px;">
-        @foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach
-    </ul>
-</div>
+<div style="display:flex;justify-content:flex-end;gap:10px;margin-top:16px"><a href="{{ route('service-letters.index') }}" class="md-btn md-btn--outlined">Cancel</a><button class="md-btn md-btn--filled">💾 {{ $draft ? 'Update Draft' : __('ui.save_draft') }}</button></div></form>
 @endif
-
-@if($employees->isEmpty())
-<div class="md-card md-card--elevated" style="padding:40px;text-align:center;color:var(--md-on-surface-variant);">
-    No employees are available under your assigned subject codes.
-</div>
-@else
-
-<form method="POST" action="{{ route('service-letters.store') }}" class="md-card md-card--elevated" id="slForm">
-    @csrf
-
-    <div class="md-card__body">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
-
-            <div class="md-field">
-                <label class="md-field__label">
-                    Employee <span style="color:var(--md-error)">*</span>
-                </label>
-                <select name="employee_id" id="employee_select" class="md-field__input" required>
-                    <option value="">— Select employee —</option>
-                    @foreach($employees as $emp)
-                        <option value="{{ $emp->id }}" {{ old('employee_id') == $emp->id ? 'selected' : '' }}>
-                            {{ $emp->display_name }} ({{ $emp->pay_no ?? 'no pay no.' }}) — {{ $emp->position->title ?? '' }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="md-field">
-                <label class="md-field__label">Template (optional)</label>
-                <select name="template_id" id="template_select" class="md-field__input">
-                    <option value="">— Write from scratch —</option>
-                    @foreach($templates as $t)
-                        <option value="{{ $t->id }}" data-language="{{ $t->language }}">
-                            {{ $t->name }} ({{ \App\Models\ServiceLetterTemplate::LANGUAGES[$t->language] ?? $t->language }})
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-
-        <div class="md-field" style="margin-bottom:14px;">
-            <label class="md-field__label">
-                Subject <span style="color:var(--md-error)">*</span>
-            </label>
-            <input type="text" name="subject" id="subject_input"
-                   class="md-field__input"
-                   value="{{ old('subject') }}"
-                   placeholder="e.g. Service Confirmation Letter"
-                   maxlength="200" required>
-        </div>
-
-        <div class="md-field">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
-                <label class="md-field__label" style="margin:0;">
-                    Letter Body <span style="color:var(--md-error)">*</span>
-                </label>
-                <button type="button" id="generateBtn" class="md-btn md-btn--outlined" style="font-size:12px;" disabled>
-                    ⚡ Generate from Template
-                </button>
-            </div>
-            <textarea name="rendered_body" id="body_textarea" rows="14"
-                      class="md-field__input" style="line-height:1.6;" required
-                      placeholder="Select an employee and template, then click 'Generate from Template' — or write the letter directly here.">{{ old('rendered_body') }}</textarea>
-            <div id="genStatus" class="md-body-sm" style="color:var(--md-on-surface-variant);margin-top:4px;min-height:16px;"></div>
-        </div>
-    </div>
-
-    <div class="md-card__footer" style="display:flex;justify-content:flex-end;gap:10px;">
-        <a href="{{ route('service-letters.index') }}" class="md-btn md-btn--outlined">Cancel</a>
-        <button type="submit" class="md-btn md-btn--filled">💾 Save as Draft</button>
-    </div>
-</form>
-@endif
-
 @endsection
-
 @push('scripts')
 <script>
-(function () {
-    'use strict';
-
-    const employeeSelect = document.getElementById('employee_select');
-    const templateSelect = document.getElementById('template_select');
-    const generateBtn    = document.getElementById('generateBtn');
-    const bodyTextarea   = document.getElementById('body_textarea');
-    const genStatus      = document.getElementById('genStatus');
-    const subjectInput   = document.getElementById('subject_input');
-
-    if (!employeeSelect) return; // no employees available — form not rendered
-
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-
-    function updateGenerateButton() {
-        const hasEmployee = !!employeeSelect.value;
-        const hasTemplate = !!templateSelect.value;
-        generateBtn.disabled = !(hasEmployee && hasTemplate);
-    }
-
-    employeeSelect.addEventListener('change', updateGenerateButton);
-    templateSelect.addEventListener('change', function () {
-        updateGenerateButton();
-        // Suggest a subject line from the template name if the officer hasn't typed one yet.
-        const opt = templateSelect.options[templateSelect.selectedIndex];
-        if (opt && opt.value && !subjectInput.value) {
-            subjectInput.value = opt.text.replace(/\s*\([^)]*\)\s*$/, '');
-        }
-    });
-
-    generateBtn.addEventListener('click', function () {
-        genStatus.textContent = 'Generating…';
-        genStatus.style.color = 'var(--md-on-surface-variant)';
-
-        fetch('{{ route('service-letters.preview') }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken,
-                'Accept': 'application/json',
-            },
-            credentials: 'same-origin',
-            body: JSON.stringify({
-                employee_id: employeeSelect.value,
-                template_id: templateSelect.value,
-            }),
-        })
-            .then(function (r) {
-                if (!r.ok) throw new Error('Request failed');
-                return r.json();
-            })
-            .then(function (data) {
-                bodyTextarea.value = data.rendered_body;
-                genStatus.textContent = '✓ Generated — review and edit before saving.';
-                genStatus.style.color = 'var(--md-primary)';
-            })
-            .catch(function () {
-                genStatus.textContent = 'Could not generate — please check the employee and template, or write the letter manually.';
-                genStatus.style.color = 'var(--md-error)';
-            });
-    });
-})();
+(function(){const employee=document.getElementById('employee_select'),template=document.getElementById('template_select'),lang=document.getElementById('language_select'),body=document.getElementById('body_textarea'),subject=document.getElementById('subject_input'),status=document.getElementById('genStatus');if(!employee)return;const token=document.querySelector('meta[name="csrf-token"]').content;function filterTemplates(){const selected=lang.value;Array.from(template.options).forEach((o,i)=>{if(i===0)return;o.hidden=o.dataset.language!==selected;if(o.hidden&&o.selected)template.value='';});}lang.addEventListener('change',filterTemplates);filterTemplates();template.addEventListener('change',()=>{const o=template.options[template.selectedIndex];if(o&&o.value&&!subject.value)subject.value=o.text.replace(/\s*\([^)]*\)\s*$/,'');});document.getElementById('generateBtn').addEventListener('click',async()=>{if(!employee.value||!template.value){status.textContent='Select an employee and matching template first.';return;}status.textContent='Generating…';try{const r=await fetch('{{ route('service-letters.preview') }}',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-TOKEN':token,'Accept':'application/json'},body:JSON.stringify({employee_id:employee.value,template_id:template.value})});if(!r.ok)throw 0;const d=await r.json();body.value=d.rendered_body;status.textContent='✓ Template generated. Review all facts.';}catch(e){status.textContent='Could not generate the template.';}});const ai=document.getElementById('aiBtn');if(ai)ai.addEventListener('click',async()=>{if(!employee.value){status.textContent='Select an employee first.';return;}status.textContent='Preparing privacy-preserving assisted draft…';try{const r=await fetch('{{ route('service-letters.ai-draft') }}',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-TOKEN':token,'Accept':'application/json'},body:JSON.stringify({employee_id:employee.value,template_id:template.value||null,purpose:document.getElementById('purpose_select').value,language:lang.value,instructions:document.getElementById('ai_instructions').value})});if(!r.ok)throw 0;const d=await r.json();body.value=d.body;status.textContent='✨ Draft prepared ('+(d.mode==='lan_ai'?'local LAN AI':'offline assistant')+'). Human review required.';}catch(e){status.textContent='Assistant unavailable. You can continue using the template/manual workflow.';}});})();
 </script>
 @endpush

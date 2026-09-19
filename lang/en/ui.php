@@ -1,0 +1,6 @@
+<?php return [
+'welcome'=>'Welcome back','sign_in_continue'=>'Sign in to continue to workforce management.','password'=>'Password','remember_me'=>'Remember me','forgot_password'=>'Forgot password?','sign_in'=>'Sign in',
+'language'=>'Language','language_changed'=>'Interface language changed.','english'=>'English','sinhala'=>'සිංහල','tamil'=>'தமிழ்',
+'notifications'=>'Notifications','mark_all_read'=>'Mark all read','logout'=>'Logout','search'=>'Search employees, projects, or reports…',
+'service_letters'=>'Service Letters','new_service_letter'=>'New Service Letter','employee'=>'Employee','purpose'=>'Purpose','template'=>'Template','letterhead'=>'Letterhead','recipient'=>'Recipient','reference'=>'Reference','subject'=>'Subject','letter_body'=>'Letter Body','save_draft'=>'Save as Draft','review'=>'Review','print'=>'Print','submit_approval'=>'Submit for AO Approval','ai_assist'=>'AI-assisted draft','generate_template'=>'Generate from Template',
+];

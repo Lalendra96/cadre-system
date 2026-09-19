@@ -1,0 +1,6 @@
+<?php return [
+'welcome'=>'மீண்டும் வரவேற்கிறோம்','sign_in_continue'=>'பணியாளர் மேலாண்மையைத் தொடர உள்நுழைக.','password'=>'கடவுச்சொல்','remember_me'=>'என்னை நினைவில் கொள்','forgot_password'=>'கடவுச்சொல் மறந்துவிட்டதா?','sign_in'=>'உள்நுழை',
+'language'=>'மொழி','language_changed'=>'இடைமுக மொழி மாற்றப்பட்டது.','english'=>'English','sinhala'=>'සිංහල','tamil'=>'தமிழ்',
+'notifications'=>'அறிவிப்புகள்','mark_all_read'=>'அனைத்தையும் வாசித்ததாக குறி','logout'=>'வெளியேறு','search'=>'ஊழியர்கள், திட்டங்கள் அல்லது அறிக்கைகளைத் தேடுக…',
+'service_letters'=>'சேவை கடிதங்கள்','new_service_letter'=>'புதிய சேவை கடிதம்','employee'=>'ஊழியர்','purpose'=>'நோக்கம்','template'=>'வார்ப்புரு','letterhead'=>'கடிதத் தலைப்பு','recipient'=>'பெறுநர்','reference'=>'குறிப்பு இலக்கம்','subject'=>'பொருள்','letter_body'=>'கடித உள்ளடக்கம்','save_draft'=>'வரைவாக சேமிக்க','review'=>'பரிசீலனை','print'=>'அச்சிடு','submit_approval'=>'AO அங்கீகாரத்திற்கு அனுப்பு','ai_assist'=>'AI உதவி வரைவு','generate_template'=>'வார்ப்புருவிலிருந்து உருவாக்கு',
+];

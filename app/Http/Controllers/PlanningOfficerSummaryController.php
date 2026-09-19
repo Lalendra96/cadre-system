@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\ApprovedCarder;
 use App\Models\CarderMonthlyEntry;
 use App\Models\Position;
+use App\Models\Employee;
+use App\Models\TransferRecord;
+use App\Models\EmployeeServicePeriod;
 use Illuminate\Http\Request;
 
 /**
@@ -77,6 +80,26 @@ class PlanningOfficerSummaryController extends Controller
 
         $years = ApprovedCarder::select('year')->distinct()->orderByDesc('year')->pluck('year');
 
-        return view('planning.summary', compact('rows', 'kpis', 'year', 'month', 'years'));
+        // Institution-level movement and progression signals. These are planning aggregates;
+        // Admin Group never receives individual Employee Profile links from this page.
+        $yearStart = now()->copy()->startOfYear();
+        $incoming = TransferRecord::active()->where('direction','in')->where('effective_date','>=',$yearStart)->count();
+        $outgoing = TransferRecord::active()->where('direction','out')->where('effective_date','>=',$yearStart)->count();
+        $combinedIncoming = EmployeeServicePeriod::active()->where('is_current',true)
+            ->where('movement_type','incoming_external_transfer')->whereNotNull('service_name')
+            ->where('start_date','>=',$yearStart)->count();
+        $retirements12 = Employee::active()->get()->filter(fn($e) => $e->retire_date && $e->retire_date->between(now(), now()->copy()->addMonths(12)))->count();
+        $futureOutgoing90 = TransferRecord::active()->where('direction','out')->whereBetween('effective_date',[now()->toDateString(),now()->copy()->addDays(90)->toDateString()])->count();
+        $gradeDue12 = Employee::active()->with('gradeRecords.positionGrade')->get()->filter(function($e){
+            $current=$e->current_grade; $next=$current?->positionGrade?->nextGrade(); $years=$next?->minYearsInGrade();
+            if(!$current || !$current->effective_date || $years===null) return false;
+            return $current->effective_date->copy()->addDays((int) round($years*365.25))->lte(now()->copy()->addMonths(12));
+        })->count();
+        $movementKpis = [
+            'incoming'=>$incoming,'outgoing'=>$outgoing,'net'=>$incoming-$outgoing,'combined_incoming'=>$combinedIncoming,
+            'future_outgoing_90'=>$futureOutgoing90,'retirements_12'=>$retirements12,'grade_due_12'=>$gradeDue12,
+        ];
+
+        return view('planning.summary', compact('rows', 'kpis', 'year', 'month', 'years', 'movementKpis'));
     }
 }
