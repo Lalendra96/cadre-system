@@ -11,7 +11,7 @@ class ServiceLetterTemplate extends Model
 {
     use HasDisableWorkflow;
 
-    public const LANGUAGES = ['si' => 'Sinhala', 'en' => 'English'];
+    public const LANGUAGES = ['si' => 'Sinhala', 'ta' => 'Tamil', 'en' => 'English'];
 
     protected $fillable = [
         'name', 'language', 'body', 'description', 'created_by',
