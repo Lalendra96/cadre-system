@@ -36,17 +36,34 @@
                 </div>
                 <div class="md-field">
                     <label class="md-field__label">Inquiry Status <span style="color:var(--md-error)">*</span></label>
-                    <select name="inquiry_status" class="md-field__input @error('inquiry_status') md-field--error @enderror" required>
+                    <select
+                        name="inquiry_status"
+                        class="md-field__input @error('inquiry_status') md-field--error @enderror"
+                        required
+                    >
                         <option value="ongoing" {{ old('inquiry_status','ongoing')==='ongoing'?'selected':'' }}>Ongoing</option>
                         <option value="concluded" {{ old('inquiry_status')==='concluded'?'selected':'' }}>Concluded</option>
                     </select>
-                    @error('inquiry_status')<div class="md-field__error">{{ $message }}</div>@enderror
+                    @error('inquiry_status')
+                        <div class="md-field__error">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
             </div>
             <div class="md-field" style="margin-bottom:14px;">
                 <label class="md-field__label">Reason</label>
-                <textarea name="reason" rows="2" maxlength="500" class="md-field__input @error('reason') md-field--error @enderror">{{ old('reason') }}</textarea>
-                @error('reason')<div class="md-field__error">{{ $message }}</div>@enderror
+                <textarea
+                    name="reason"
+                    rows="2"
+                    maxlength="500"
+                    class="md-field__input @error('reason') md-field--error @enderror"
+                >{{ old('reason') }}</textarea>
+                @error('reason')
+                    <div class="md-field__error">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
             <div class="md-field" style="margin-bottom:14px;">
                 <label class="md-field__label">Inquiry Reference No.</label>
@@ -80,19 +97,35 @@
                 </div>
                 <div class="md-field">
                     <label class="md-field__label">Outcome</label>
-                    <select name="outcome" class="md-field__input @error('outcome') md-field--error @enderror">
+                    <select
+                        name="outcome"
+                        class="md-field__input @error('outcome') md-field--error @enderror"
+                    >
                         <option value="">— Not yet determined —</option>
                         @foreach(\App\Models\EmployeeInterdiction::OUTCOME_LABELS as $key => $label)
                             <option value="{{ $key }}" {{ old('outcome')===$key?'selected':'' }}>{{ $label }}</option>
                         @endforeach
                     </select>
-                    @error('outcome')<div class="md-field__error">{{ $message }}</div>@enderror
+                    @error('outcome')
+                        <div class="md-field__error">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
             </div>
             <div class="md-field">
                 <label class="md-field__label">Notes</label>
-                <textarea name="notes" rows="2" maxlength="500" class="md-field__input @error('notes') md-field--error @enderror">{{ old('notes') }}</textarea>
-                @error('notes')<div class="md-field__error">{{ $message }}</div>@enderror
+                <textarea
+                    name="notes"
+                    rows="2"
+                    maxlength="500"
+                    class="md-field__input @error('notes') md-field--error @enderror"
+                >{{ old('notes') }}</textarea>
+                @error('notes')
+                    <div class="md-field__error">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
         </div>
         <div class="md-card__footer" style="display:flex;justify-content:flex-end;gap:10px;">

@@ -51,7 +51,11 @@
                             <option value="{{ $e->name }}">
                         @endforeach
                     </datalist>
-                    @error('employee_name')<div class="md-field__error">{{ $message }}</div>@enderror
+                    @error('employee_name')
+                        <div class="md-field__error">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
 
                 <div class="md-field">
@@ -60,7 +64,11 @@
                            class="md-field__input @error('designation') md-field--error @enderror"
                            value="{{ old('designation', $record->designation) }}"
                            placeholder="e.g. Staff Nurse Grade II">
-                    @error('designation')<div class="md-field__error">{{ $message }}</div>@enderror
+                    @error('designation')
+                        <div class="md-field__error">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
             </div>
 
@@ -73,7 +81,11 @@
                         <option value="in"  {{ old('direction', $record->direction) === 'in'  ? 'selected' : '' }}>▶ Transfer In</option>
                         <option value="out" {{ old('direction', $record->direction) === 'out' ? 'selected' : '' }}>◀ Transfer Out</option>
                     </select>
-                    @error('direction')<div class="md-field__error">{{ $message }}</div>@enderror
+                    @error('direction')
+                        <div class="md-field__error">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
 
                 <div class="md-field">
@@ -87,7 +99,11 @@
                             </option>
                         @endforeach
                     </select>
-                    @error('transfer_type')<div class="md-field__error">{{ $message }}</div>@enderror
+                    @error('transfer_type')
+                        <div class="md-field__error">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
             </div>
 
@@ -114,7 +130,11 @@
                        class="md-field__input @error('effective_date') md-field--error @enderror"
                        value="{{ old('effective_date', $record->effective_date?->format('Y-m-d') ?? today()->format('Y-m-d')) }}"
                        required style="max-width:200px;">
-                @error('effective_date')<div class="md-field__error">{{ $message }}</div>@enderror
+                @error('effective_date')
+                    <div class="md-field__error">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
 
             <div style="border-top:1px solid var(--md-outline-variant);margin:16px 0;padding-top:16px;">
@@ -127,14 +147,22 @@
                         <input type="text" name="psc_circular_no"
                                class="md-field__input @error('psc_circular_no') md-field--error @enderror"
                                value="{{ old('psc_circular_no', $record->psc_circular_no) }}" maxlength="100">
-                        @error('psc_circular_no')<div class="md-field__error">{{ $message }}</div>@enderror
+                        @error('psc_circular_no')
+                            <div class="md-field__error">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
                     <div class="md-field">
                         <label class="md-field__label">Transfer Board Ref. No.</label>
                         <input type="text" name="transfer_board_ref_no"
                                class="md-field__input @error('transfer_board_ref_no') md-field--error @enderror"
                                value="{{ old('transfer_board_ref_no', $record->transfer_board_ref_no) }}" maxlength="100">
-                        @error('transfer_board_ref_no')<div class="md-field__error">{{ $message }}</div>@enderror
+                        @error('transfer_board_ref_no')
+                            <div class="md-field__error">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
                 </div>
                 <div class="md-field">
@@ -143,7 +171,11 @@
                            class="md-field__input @error('transfer_board_decision_date') md-field--error @enderror"
                            value="{{ old('transfer_board_decision_date', $record->transfer_board_decision_date?->format('Y-m-d')) }}"
                            style="max-width:220px;">
-                    @error('transfer_board_decision_date')<div class="md-field__error">{{ $message }}</div>@enderror
+                    @error('transfer_board_decision_date')
+                        <div class="md-field__error">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
             </div>
 

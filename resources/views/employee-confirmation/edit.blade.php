@@ -55,14 +55,22 @@
                     <input type="date" name="date_confirmed"
                            class="md-field__input @error('date_confirmed') md-field--error @enderror"
                            value="{{ old('date_confirmed', $employee->date_confirmed?->format('Y-m-d')) }}">
-                    @error('date_confirmed')<div class="md-field__error">{{ $message }}</div>@enderror
+                    @error('date_confirmed')
+                        <div class="md-field__error">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
                 <div class="md-field">
                     <label class="md-field__label">Confirmation Reference No.</label>
                     <input type="text" name="confirmation_reference_no"
                            class="md-field__input @error('confirmation_reference_no') md-field--error @enderror"
                            value="{{ old('confirmation_reference_no', $employee->confirmation_reference_no) }}" maxlength="60">
-                    @error('confirmation_reference_no')<div class="md-field__error">{{ $message }}</div>@enderror
+                    @error('confirmation_reference_no')
+                        <div class="md-field__error">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
             </div>
         </div>

@@ -53,7 +53,11 @@
                 <label class="md-field__label">
                     Grade <span style="color:var(--md-error)">*</span>
                 </label>
-                <select name="position_grade_id" class="md-field__input @error('position_grade_id') md-field--error @enderror" required>
+                <select
+                    name="position_grade_id"
+                    class="md-field__input @error('position_grade_id') md-field--error @enderror"
+                    required
+                >
                     <option value="">— Select grade —</option>
                     @foreach($availableGrades as $g)
                         <option value="{{ $g->id }}" {{ old('position_grade_id') == $g->id ? 'selected' : '' }}>
@@ -61,7 +65,11 @@
                         </option>
                     @endforeach
                 </select>
-                @error('position_grade_id')<div class="md-field__error">{{ $message }}</div>@enderror
+                @error('position_grade_id')
+                    <div class="md-field__error">
+                        {{ $message }}
+                    </div>
+                @enderror
 
                 <div id="criteriaHint" class="md-body-sm" style="color:var(--md-on-surface-variant);margin-top:6px;"></div>
             </div>
@@ -73,7 +81,11 @@
                 <input type="date" name="effective_date"
                        class="md-field__input @error('effective_date') md-field--error @enderror"
                        value="{{ old('effective_date', now()->toDateString()) }}" required>
-                @error('effective_date')<div class="md-field__error">{{ $message }}</div>@enderror
+                @error('effective_date')
+                    <div class="md-field__error">
+                        {{ $message }}
+                    </div>
+                @enderror
                 <div class="md-body-sm" style="color:var(--md-on-surface-variant);margin-top:4px;">
                     If approved, the previous current grade record will be closed automatically. Nothing is applied until an independent authorised officer approves this proposal.
                 </div>
@@ -84,7 +96,11 @@
                 <input type="text" name="reference_no"
                        class="md-field__input @error('reference_no') md-field--error @enderror"
                        value="{{ old('reference_no') }}" placeholder="e.g. promotion letter reference" maxlength="60">
-                @error('reference_no')<div class="md-field__error">{{ $message }}</div>@enderror
+                @error('reference_no')
+                    <div class="md-field__error">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
 
             <div class="md-field">
@@ -92,7 +108,11 @@
                 <textarea name="notes" rows="2" maxlength="500"
                           class="md-field__input @error('notes') md-field--error @enderror"
                           placeholder="Optional">{{ old('notes') }}</textarea>
-                @error('notes')<div class="md-field__error">{{ $message }}</div>@enderror
+                @error('notes')
+                    <div class="md-field__error">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
         </div>
 

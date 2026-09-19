@@ -42,7 +42,11 @@
                 @if($appointment->exists)
                     <input type="hidden" name="employee_id" value="{{ $appointment->employee_id }}">
                 @endif
-                @error('employee_id')<div class="md-field__error">{{ $message }}</div>@enderror
+                @error('employee_id')
+                    <div class="md-field__error">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
 
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
@@ -62,7 +66,11 @@
                     @if($appointment->exists)
                         <input type="hidden" name="acting_position_id" value="{{ $appointment->acting_position_id }}">
                     @endif
-                    @error('acting_position_id')<div class="md-field__error">{{ $message }}</div>@enderror
+                    @error('acting_position_id')
+                        <div class="md-field__error">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
 
                 <div class="md-field">
@@ -81,7 +89,11 @@
                     @if($appointment->exists)
                         <input type="hidden" name="substantive_position_id" value="{{ $appointment->substantive_position_id }}">
                     @endif
-                    @error('substantive_position_id')<div class="md-field__error">{{ $message }}</div>@enderror
+                    @error('substantive_position_id')
+                        <div class="md-field__error">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
             </div>
 
@@ -92,7 +104,11 @@
                            class="md-field__input @error('start_date') md-field--error @enderror"
                            value="{{ old('start_date', $appointment->start_date?->format('Y-m-d')) }}"
                            {{ $appointment->exists ? 'readonly' : '' }} required>
-                    @error('start_date')<div class="md-field__error">{{ $message }}</div>@enderror
+                    @error('start_date')
+                        <div class="md-field__error">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
 
                 <div class="md-field">
@@ -100,7 +116,11 @@
                     <input type="date" name="end_date"
                            class="md-field__input @error('end_date') md-field--error @enderror"
                            value="{{ old('end_date', $appointment->end_date?->format('Y-m-d')) }}">
-                    @error('end_date')<div class="md-field__error">{{ $message }}</div>@enderror
+                    @error('end_date')
+                        <div class="md-field__error">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
             </div>
 
@@ -110,7 +130,11 @@
                        class="md-field__input @error('appointment_order_no') md-field--error @enderror"
                        value="{{ old('appointment_order_no', $appointment->appointment_order_no) }}"
                        placeholder="e.g. MoH/HRM/2026/0123">
-                @error('appointment_order_no')<div class="md-field__error">{{ $message }}</div>@enderror
+                @error('appointment_order_no')
+                    <div class="md-field__error">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
 
             <div class="md-field">

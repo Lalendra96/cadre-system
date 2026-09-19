@@ -36,7 +36,11 @@
                     <input type="date" name="increment_date" autofocus
                            class="md-field__input @error('increment_date') md-field--error @enderror"
                            value="{{ old('increment_date') }}" required>
-                    @error('increment_date')<div class="md-field__error">{{ $message }}</div>@enderror
+                    @error('increment_date')
+                        <div class="md-field__error">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
 
                 <div class="md-field">
@@ -44,7 +48,11 @@
                     <input type="number" name="amount" step="0.01" min="0"
                            class="md-field__input @error('amount') md-field--error @enderror"
                            value="{{ old('amount') }}" placeholder="Optional">
-                    @error('amount')<div class="md-field__error">{{ $message }}</div>@enderror
+                    @error('amount')
+                        <div class="md-field__error">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
             </div>
 
@@ -53,7 +61,11 @@
                 <input type="text" name="reference_no"
                        class="md-field__input @error('reference_no') md-field--error @enderror"
                        value="{{ old('reference_no') }}" placeholder="e.g. circular / gazette reference" maxlength="60">
-                @error('reference_no')<div class="md-field__error">{{ $message }}</div>@enderror
+                @error('reference_no')
+                    <div class="md-field__error">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
 
             <div class="md-field">
@@ -61,7 +73,11 @@
                 <textarea name="notes" rows="2" maxlength="500"
                           class="md-field__input @error('notes') md-field--error @enderror"
                           placeholder="Optional">{{ old('notes') }}</textarea>
-                @error('notes')<div class="md-field__error">{{ $message }}</div>@enderror
+                @error('notes')
+                    <div class="md-field__error">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
         </div>
 
