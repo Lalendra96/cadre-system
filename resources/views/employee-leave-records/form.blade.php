@@ -8,7 +8,11 @@
     </div>
     @if($errors->any())
     <div style="background:var(--md-error-container);color:var(--md-on-error-container);padding:12px 18px;border-radius:var(--md-shape-sm);margin-bottom:16px;font-size:13px;">
-        <ul style="margin:0;padding-left:16px;">@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul>
+        <ul style="margin: 0; padding-left: 16px;">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
     </div>
     @endif
     <form method="POST" action="{{ route('employee-leave-records.store', $employee) }}" class="md-card md-card--elevated">
@@ -30,8 +34,17 @@
                 </div>
                 <div class="md-field">
                     <label class="md-field__label">Expected Return Date</label>
-                    <input type="date" name="expected_return_date" class="md-field__input @error('expected_return_date') md-field--error @enderror" value="{{ old('expected_return_date') }}">
-                    @error('expected_return_date')<div class="md-field__error">{{ $message }}</div>@enderror
+                    <input
+                        type="date"
+                        name="expected_return_date"
+                        class="md-field__input @error('expected_return_date') md-field--error @enderror"
+                        value="{{ old('expected_return_date') }}"
+                    >
+                    @error('expected_return_date')
+                        <div class="md-field__error">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
             </div>
             <div class="md-field" style="margin-bottom:14px;">

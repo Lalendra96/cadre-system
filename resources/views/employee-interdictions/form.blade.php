@@ -8,7 +8,11 @@
     </div>
     @if($errors->any())
     <div style="background:var(--md-error-container);color:var(--md-on-error-container);padding:12px 18px;border-radius:var(--md-shape-sm);margin-bottom:16px;font-size:13px;">
-        <ul style="margin:0;padding-left:16px;">@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul>
+        <ul style="margin: 0; padding-left: 16px;">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
     </div>
     @endif
     <form method="POST" action="{{ route('employee-interdictions.store', $employee) }}" class="md-card md-card--elevated">
@@ -17,8 +21,18 @@
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
                 <div class="md-field">
                     <label class="md-field__label">Interdiction Date <span style="color:var(--md-error)">*</span></label>
-                    <input type="date" name="interdiction_date" class="md-field__input @error('interdiction_date') md-field--error @enderror" value="{{ old('interdiction_date') }}" required>
-                    @error('interdiction_date')<div class="md-field__error">{{ $message }}</div>@enderror
+                    <input
+                        type="date"
+                        name="interdiction_date"
+                        class="md-field__input @error('interdiction_date') md-field--error @enderror"
+                        value="{{ old('interdiction_date') }}"
+                        required
+                    >
+                    @error('interdiction_date')
+                        <div class="md-field__error">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
                 <div class="md-field">
                     <label class="md-field__label">Inquiry Status <span style="color:var(--md-error)">*</span></label>
@@ -36,14 +50,33 @@
             </div>
             <div class="md-field" style="margin-bottom:14px;">
                 <label class="md-field__label">Inquiry Reference No.</label>
-                <input type="text" name="inquiry_reference_no" class="md-field__input @error('inquiry_reference_no') md-field--error @enderror" value="{{ old('inquiry_reference_no') }}" maxlength="100">
-                @error('inquiry_reference_no')<div class="md-field__error">{{ $message }}</div>@enderror
+                <input
+                    type="text"
+                    name="inquiry_reference_no"
+                    class="md-field__input @error('inquiry_reference_no') md-field--error @enderror"
+                    value="{{ old('inquiry_reference_no') }}"
+                    maxlength="100"
+                >
+                @error('inquiry_reference_no')
+                    <div class="md-field__error">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
                 <div class="md-field">
                     <label class="md-field__label">Reinstatement Date</label>
-                    <input type="date" name="reinstatement_date" class="md-field__input @error('reinstatement_date') md-field--error @enderror" value="{{ old('reinstatement_date') }}">
-                    @error('reinstatement_date')<div class="md-field__error">{{ $message }}</div>@enderror
+                    <input
+                        type="date"
+                        name="reinstatement_date"
+                        class="md-field__input @error('reinstatement_date') md-field--error @enderror"
+                        value="{{ old('reinstatement_date') }}"
+                    >
+                    @error('reinstatement_date')
+                        <div class="md-field__error">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
                 <div class="md-field">
                     <label class="md-field__label">Outcome</label>

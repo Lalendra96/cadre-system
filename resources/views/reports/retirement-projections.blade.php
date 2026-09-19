@@ -22,7 +22,32 @@
 </div>
 @else
 <div style="display:flex;flex-direction:column;gap:12px;">
-    @foreach(['overdue'=>['label'=>'Projected date passed — verification required','color'=>'var(--md-error)','badge'=>'md-badge--critical'], 'critical'=>['label'=>'Within 6 months','color'=>'var(--md-error)','badge'=>'md-badge--critical'], 'soon'=>['label'=>'7–12 months','color'=>'var(--md-warning)','badge'=>'md-badge--warning'], 'upcoming'=>['label'=>'13 months onwards','color'=>'var(--md-primary)','badge'=>'md-badge--info']] as $status => $meta)
+    @php
+        $retirementGroups = [
+            'overdue' => [
+                'label' => 'Projected date passed — verification required',
+                'color' => 'var(--md-error)',
+                'badge' => 'md-badge--critical',
+            ],
+            'critical' => [
+                'label' => 'Within 6 months',
+                'color' => 'var(--md-error)',
+                'badge' => 'md-badge--critical',
+            ],
+            'soon' => [
+                'label' => '7–12 months',
+                'color' => 'var(--md-warning)',
+                'badge' => 'md-badge--warning',
+            ],
+            'upcoming' => [
+                'label' => '13 months onwards',
+                'color' => 'var(--md-primary)',
+                'badge' => 'md-badge--info',
+            ],
+        ];
+    @endphp
+
+    @foreach ($retirementGroups as $status => $meta)
         @php($group = $employees->where('status', $status))
         @if($group->isNotEmpty())
         <div class="md-card md-card--elevated">

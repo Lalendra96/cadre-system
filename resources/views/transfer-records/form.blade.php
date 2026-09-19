@@ -9,7 +9,9 @@
     <form method="POST"
           action="{{ $record->exists ? route('transfer-records.update', $record) : route('transfer-records.store') }}">
         @csrf
-        @if($record->exists) @method('PUT') @endif
+        @if ($record->exists)
+            @method('PUT')
+        @endif
 
         @if($entry)
             <input type="hidden" name="carder_entry_id" value="{{ $entry->id }}">
@@ -21,7 +23,9 @@
                 <div style="background:var(--md-error-container);color:var(--md-on-error-container);
                             padding:12px 16px;border-radius:var(--md-shape-sm);font-size:13px;">
                     <ul style="margin:0;padding-left:16px;">
-                        @foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
                     </ul>
                 </div>
             @endif

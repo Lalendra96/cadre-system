@@ -9,7 +9,9 @@
     <form method="POST"
           action="{{ $appointment->exists ? route('acting-appointments.update', $appointment) : route('acting-appointments.store') }}">
         @csrf
-        @if($appointment->exists) @method('PUT') @endif
+        @if ($appointment->exists)
+            @method('PUT')
+        @endif
 
         <div class="md-card__body" style="display:flex;flex-direction:column;gap:18px;">
 
@@ -17,7 +19,9 @@
                 <div style="background:var(--md-error-container);color:var(--md-on-error-container);
                             padding:12px 16px;border-radius:var(--md-shape-sm);font-size:13px;">
                     <ul style="margin:0;padding-left:16px;">
-                        @foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
                     </ul>
                 </div>
             @endif

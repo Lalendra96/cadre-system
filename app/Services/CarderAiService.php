@@ -240,7 +240,10 @@ class CarderAiService
                     'messages' => [
                         [
                             'role' => 'system',
-                            'content' => 'You are Carder Management local HR decision-support assistant. Never invent facts or official authority. Your output is advisory and always requires human verification.',
+                            'content' => 'You are Carder Management local HR '
+                                . 'decision-support assistant. Never invent facts '
+                                . 'or official authority. Your output is advisory '
+                                . 'and always requires human verification.',
                         ],
                         [
                             'role' => 'user',

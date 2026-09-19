@@ -14,11 +14,26 @@
     </div>
 
     @if(session('success'))
-    <div style="background:var(--md-success-container,#1b3a2d);color:var(--md-on-success-container,#9ef0b3);padding:12px 18px;border-radius:var(--md-shape-sm);margin-bottom:16px;font-size:13px;">✓ {{ session('success') }}</div>
+    <div
+        style="
+            background: var(--md-success-container, #1b3a2d);
+            color: var(--md-on-success-container, #9ef0b3);
+            padding: 12px 18px;
+            border-radius: var(--md-shape-sm);
+            margin-bottom: 16px;
+            font-size: 13px;
+        "
+    >
+        ✓ {{ session('success') }}
+    </div>
     @endif
     @if($errors->any())
     <div style="background:var(--md-error-container);color:var(--md-on-error-container);padding:12px 18px;border-radius:var(--md-shape-sm);margin-bottom:16px;font-size:13px;">
-        <ul style="margin:0;padding-left:16px;">@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul>
+        <ul style="margin: 0; padding-left: 16px;">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
     </div>
     @endif
 

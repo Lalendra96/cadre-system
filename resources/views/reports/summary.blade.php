@@ -18,7 +18,20 @@
   box-shadow: var(--md-elevation-1);
 }
 .kpi-card__row    { display:flex; align-items:flex-start; justify-content:space-between; }
-.kpi-card__icon   { width:40px; height:40px; border-radius:var(--md-shape-sm); background:color-mix(in srgb, var(--kpi-color, var(--md-primary)) 15%, transparent); display:flex; align-items:center; justify-content:center; font-size:20px; }
+.kpi-card__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--md-shape-sm);
+    background: color-mix(
+        in srgb,
+        var(--kpi-color, var(--md-primary)) 15%,
+        transparent
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
 .kpi-card__value  { font-size:36px; font-weight:700; color:var(--kpi-color, var(--md-primary)); line-height:1; }
 .kpi-card__label  { font-size:12px; font-weight:500; text-transform:uppercase; letter-spacing:.8px; color:var(--md-on-surface-variant); }
 .kpi-card__bar    { height:4px; border-radius:2px; background:var(--md-outline-variant); overflow:hidden; }

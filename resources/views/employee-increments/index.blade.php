@@ -35,7 +35,9 @@
         </div>
         <div class="md-body-sm" style="color:{{ $daysAway < 0 ? 'var(--md-on-error-container)' : 'var(--md-on-surface-variant)' }};">
             {{ $next->increment_date->format('d M Y') }}
-            @if($next->amount) · Rs. {{ number_format($next->amount, 2) }} @endif
+            @if ($next->amount)
+                · Rs. {{ number_format($next->amount, 2) }}
+            @endif
         </div>
     </div>
     <div style="font-size:13px;font-weight:600;color:{{ $daysAway < 0 ? 'var(--md-error)' : 'var(--md-primary)' }};">

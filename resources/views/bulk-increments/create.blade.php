@@ -6,7 +6,9 @@
     <div>
         <h2 class="md-headline-sm">Bulk Increment Builder</h2>
         <p class="md-body-sm" style="color:var(--md-on-surface-variant);">
-            Select a position and prepare increment proposals for multiple employees. Each completed row is submitted for independent human approval; no increment is applied immediately.
+            Select a position and prepare increment proposals for multiple
+            employees. Each completed row is submitted for independent human
+            approval; no increment is applied immediately.
         </p>
     </div>
 </div>
@@ -20,7 +22,11 @@
 @if($errors->any())
 <div style="background:var(--md-error-container);color:var(--md-on-error-container);
             padding:12px 18px;border-radius:var(--md-shape-sm);margin-bottom:16px;font-size:13px;">
-    <ul style="margin:0;padding-left:16px;">@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul>
+    <ul style="margin: 0; padding-left: 16px;">
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
 </div>
 @endif
 

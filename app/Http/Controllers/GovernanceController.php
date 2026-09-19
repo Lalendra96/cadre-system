@@ -160,7 +160,10 @@ class GovernanceController extends Controller
 
         return back()->with(
             'success',
-            'Governance responsibility profile recorded as institutionally reviewed. This documents the institution\'s designation; the software itself does not create or determine a legal controller/processor relationship.'
+            'Governance responsibility profile recorded as institutionally '
+            . 'reviewed. This documents the institution\'s designation; the '
+            . 'software itself does not create or determine a legal '
+            . 'controller/processor relationship.'
         );
     }
 
