@@ -1,2 +1,27 @@
-<?php return ['sections'=>['My Work'=>'என் பணிகள்','Planning'=>'திட்டமிடல்','Workforce'=>'பணியாளர் வளம்','Administration'=>'நிர்வாகம்','Carder'=>'பணியாளர் அமைப்பு','Reports'=>'அறிக்கைகள்','Admin Group'=>'நிர்வாகக் குழு'],'routes'=>[
-'subject-officer_workspace'=>'இன்று & என் பணிகள்','employees_index'=>'ஊழியர் சுயவிவரங்கள்','employee-service-periods_overview'=>'சேவை வரலாறு','transfer-records_index'=>'இடமாற்றப் பதிவுகள்','acting-appointments_index'=>'பதில் நியமனங்கள்','service-letters_index'=>'சேவை கடிதங்கள்','retirement-projects_index'=>'ஓய்வு திட்டம்','data-quality_index'=>'தரவு தரம்','planning_summary'=>'திட்டமிடல் பலகை','admin_features'=>'அம்ச மேலாண்மை','service-letter-templates_index'=>'சேவை கடித வார்ப்புருக்கள்','service-letter-letterheads_index'=>'சேவை கடிதத் தலைப்புகள்']];
+<?php
+
+return [
+    'sections' => [
+        'My Work' => 'என் பணிகள்',
+        'Planning' => 'திட்டமிடல்',
+        'Workforce' => 'பணியாளர் வளம்',
+        'Administration' => 'நிர்வாகம்',
+        'Carder' => 'பணியாளர் அமைப்பு',
+        'Reports' => 'அறிக்கைகள்',
+        'Admin Group' => 'நிர்வாகக் குழு',
+    ],
+    'routes' => [
+        'subject-officer_workspace' => 'இன்று & என் பணிகள்',
+        'employees_index' => 'ஊழியர் சுயவிவரங்கள்',
+        'employee-service-periods_overview' => 'சேவை வரலாறு',
+        'transfer-records_index' => 'இடமாற்றப் பதிவுகள்',
+        'acting-appointments_index' => 'பதில் நியமனங்கள்',
+        'service-letters_index' => 'சேவை கடிதங்கள்',
+        'retirement-projects_index' => 'ஓய்வு திட்டம்',
+        'data-quality_index' => 'தரவு தரம்',
+        'planning_summary' => 'திட்டமிடல் பலகை',
+        'admin_features' => 'அம்ச மேலாண்மை',
+        'service-letter-templates_index' => 'சேவை கடித வார்ப்புருக்கள்',
+        'service-letter-letterheads_index' => 'சேவை கடிதத் தலைப்புகள்',
+    ],
+];
