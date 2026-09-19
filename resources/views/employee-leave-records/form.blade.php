@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Add Leave Record — ' . $employee->display_name)
+@section('title', 'Propose Leave Record — ' . $employee->display_name)
 @section('content')
 <div style="max-width:600px;margin:0 auto;">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
@@ -47,7 +47,7 @@
         </div>
         <div class="md-card__footer" style="display:flex;justify-content:flex-end;gap:10px;">
             <a href="{{ route('employee-leave-records.index', $employee) }}" class="md-btn md-btn--outlined">Cancel</a>
-            <button type="submit" class="md-btn md-btn--filled">💾 Save</button>
+            <button type="submit" class="md-btn md-btn--filled">✅ Submit for Independent Approval</button>
         </div>
     </form>
 </div>

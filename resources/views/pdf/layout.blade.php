@@ -181,6 +181,16 @@ tfoot td {
 .footer-right   { float: right; }
 .footer-center  { text-align: center; }
 
+.decision-support-notice {
+    margin-top: 14px;
+    padding: 7px 8px;
+    border: 1px solid #c7d2e6;
+    background: #f6f8fc;
+    color: #455a70;
+    font-size: 7.5pt;
+    line-height: 1.35;
+}
+
 .confidential {
     text-align: center;
     font-size: 7pt;
@@ -248,13 +258,24 @@ tfoot td {
 </div>
 @endif
 
+{{-- ── Decision-support notice ─────────────────────────────────────── --}}
+<div class="decision-support-notice">
+    <strong>Internal Administrative Decision Support:</strong>
+    This report presents system-recorded information and/or system-calculated
+    indicators for administrative review. It does not by itself constitute
+    Government of Sri Lanka policy, a circular, regulation, Establishments
+    Code provision, legal interpretation, service minute, PSC decision or
+    administrative determination. The responsible officer must verify the
+    applicable official authority and underlying source record before action.
+</div>
+
 {{-- ── Footer ────────────────────────────────────────────────────────── --}}
 <div class="report-footer">
     <div class="footer-left">Teaching Hospital Peradeniya &mdash; HIMS PARIKSHA</div>
     <div class="footer-right">{{ now()->format('d M Y') }}</div>
 </div>
 <div class="confidential">
-    Confidential &mdash; For Official Use Only &mdash; Not for Public Distribution
+    Confidential &mdash; Internal Administrative Use &mdash; Decision Support &mdash; Not for Public Distribution
 </div>
 
 </body>

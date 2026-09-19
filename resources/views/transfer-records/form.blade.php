@@ -153,7 +153,7 @@
 
         <div class="md-card__footer">
             <a href="{{ route('transfer-records.index') }}" class="md-btn md-btn--text">Cancel</a>
-            <button type="submit" class="md-btn md-btn--filled">Save Transfer Record</button>
+            <button type="submit" class="md-btn md-btn--filled">{{ $record->exists ? 'Save Audited Correction' : 'Submit Transfer for Independent Approval' }}</button>
         </div>
     </form>
 </div>

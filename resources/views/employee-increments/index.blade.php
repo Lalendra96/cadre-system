@@ -12,7 +12,7 @@
             </p>
         </div>
     </div>
-    <a href="{{ route('employee-increments.create', $employee) }}" class="md-btn md-btn--filled">+ Quick Add Increment</a>
+    <a href="{{ route('employee-increments.create', $employee) }}" class="md-btn md-btn--filled">+ Propose Increment Record</a>
 </div>
 
 @if(session('success'))
@@ -31,7 +31,7 @@
             border-left:none;background:{{ $daysAway < 0 ? 'var(--md-error-container)' : 'var(--md-surface-container)' }};">
     <div>
         <div class="md-label-md" style="color:{{ $daysAway < 0 ? 'var(--md-on-error-container)' : 'var(--md-on-surface)' }};">
-            {{ $daysAway < 0 ? '⚠ Overdue increment' : ($daysAway <= 30 ? '🔔 Upcoming increment' : 'Next recorded increment') }}
+            {{ $daysAway < 0 ? '⚠ System date passed — verify' : ($daysAway <= 30 ? '🔔 System-calculated upcoming date' : 'Next recorded increment date') }}
         </div>
         <div class="md-body-sm" style="color:{{ $daysAway < 0 ? 'var(--md-on-error-container)' : 'var(--md-on-surface-variant)' }};">
             {{ $next->increment_date->format('d M Y') }}
@@ -92,6 +92,20 @@
         </table>
     </div>
     <div class="md-card__footer">{{ $increments->links('vendor.pagination.material') }}</div>
+</div>
+
+<div
+    style="
+        margin-top: 12px;
+        padding: 10px 12px;
+        border-left: 4px solid var(--md-primary);
+        background: var(--md-surface-container);
+    "
+>
+    <strong>Decision-support note:</strong>
+    Increment dates and reminders are system-recorded indicators for review.
+    A newly proposed increment record is not applied until independent human
+    approval verifies the underlying record and applicable official authority.
 </div>
 
 <p class="md-body-sm" style="color:var(--md-on-surface-variant);margin-top:12px;">

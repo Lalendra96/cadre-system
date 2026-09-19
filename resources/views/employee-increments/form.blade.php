@@ -6,7 +6,7 @@
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
         <a href="{{ route('employee-increments.index', $employee) }}" class="md-btn md-btn--icon">&#8592;</a>
         <div>
-            <h2 class="md-headline-sm">Quick Add Increment</h2>
+            <h2 class="md-headline-sm">Propose Increment Record</h2>
             <p class="md-body-sm" style="color:var(--md-on-surface-variant);">
                 {{ $employee->display_name }} ({{ $employee->pay_no ?? '—' }})
             </p>
@@ -65,7 +65,7 @@
 
         <div class="md-card__footer" style="display:flex;justify-content:flex-end;gap:10px;">
             <a href="{{ route('employee-increments.index', $employee) }}" class="md-btn md-btn--outlined">Cancel</a>
-            <button type="submit" class="md-btn md-btn--filled">💾 Save Increment</button>
+            <button type="submit" class="md-btn md-btn--filled">✅ Submit for Independent Approval</button>
         </div>
     </form>
 

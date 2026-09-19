@@ -70,4 +70,18 @@ class BusinessRule extends Model
             'updated_by'
         );
     }
+
+    public function versions()
+    {
+        return $this->hasMany(
+            BusinessRuleVersion::class
+        )->orderByDesc('version_no');
+    }
+
+    public function decisions()
+    {
+        return $this->hasMany(
+            AdministrativeDecision::class
+        );
+    }
 }

@@ -14,6 +14,8 @@ class CarderAiService
 {
     public function employeeSummary(Employee $employee): array
     {
+        AiCapabilityPolicy::assertAdvisory('record_summary');
+
         $employee->loadMissing([
             'position',
             'unit',
@@ -61,7 +63,10 @@ class CarderAiService
             'combined_service' => $employee->combined_service_name,
             'service_period_count' => $periods->count(),
             'verified_service_periods' => $periods
-                ->where('verification_status', 'verified')
+                ->where(
+                    'verification_status',
+                    'verified_official_record'
+                )
                 ->count(),
             'missing' => $missing,
         ];
@@ -96,6 +101,8 @@ class CarderAiService
         string $language,
         string $instructions = ''
     ): array {
+        AiCapabilityPolicy::assertAdvisory('draft_service_letter');
+
         $base = $template
             ? ServiceLetterService::render($template, $employee)
             : $this->fallbackLetter($employee, $purpose, $language);

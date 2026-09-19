@@ -7,6 +7,7 @@ use App\Http\Controllers\FeatureManagementController;
 use App\Http\Controllers\IncomingOfficerController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\GovernanceController;
+use App\Http\Controllers\AdministrativeDecisionController;
 use App\Http\Controllers\ServiceLetterController;
 use App\Http\Controllers\ServiceLetterLetterheadController;
 use App\Http\Controllers\ServiceLetterTemplateController;
@@ -328,6 +329,38 @@ Route::middleware('auth')->group(
         );
 
         Route::get(
+            '/administrative-decisions',
+            [
+                AdministrativeDecisionController::class,
+                'index',
+            ]
+        )->name('administrative-decisions.index');
+
+        Route::get(
+            '/administrative-decisions/{administrativeDecision}',
+            [
+                AdministrativeDecisionController::class,
+                'show',
+            ]
+        )->name('administrative-decisions.show');
+
+        Route::post(
+            '/administrative-decisions/{administrativeDecision}/approve',
+            [
+                AdministrativeDecisionController::class,
+                'approve',
+            ]
+        )->name('administrative-decisions.approve');
+
+        Route::post(
+            '/administrative-decisions/{administrativeDecision}/reject',
+            [
+                AdministrativeDecisionController::class,
+                'reject',
+            ]
+        )->name('administrative-decisions.reject');
+
+        Route::get(
             '/governance',
             [
                 GovernanceController::class,
@@ -382,6 +415,14 @@ Route::middleware('auth')->group(
                         'updateRule',
                     ]
                 )->name('governance.rules.update');
+
+                Route::get(
+                    '/governance/business-rules/{businessRule}/history',
+                    [
+                        GovernanceController::class,
+                        'ruleHistory',
+                    ]
+                )->name('governance.rules.history');
 
                 Route::patch(
                     '/governance/business-rules/{businessRule}/toggle',

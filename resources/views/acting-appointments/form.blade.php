@@ -128,7 +128,7 @@
         <div class="md-card__footer">
             <a href="{{ route('acting-appointments.index') }}" class="md-btn md-btn--text">Cancel</a>
             <button type="submit" class="md-btn md-btn--filled">
-                {{ $appointment->exists ? 'Update' : 'Record Appointment' }}
+                {{ $appointment->exists ? 'Save Audited Correction' : 'Submit for Independent Approval' }}
             </button>
         </div>
     </form>

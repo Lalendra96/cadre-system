@@ -396,11 +396,44 @@ function onMetricChange() {
 
 // Export chart as PNG
 function exportChart(canvasId, filename) {
-    var canvas = document.getElementById(canvasId);
-    if (!canvas) return;
-    var link = document.createElement('a');
+    const canvas = document.getElementById(canvasId);
+
+    if (!canvas) {
+        return;
+    }
+
+    const footerHeight = 70;
+    const exportCanvas = document.createElement('canvas');
+    exportCanvas.width = canvas.width;
+    exportCanvas.height = canvas.height + footerHeight;
+
+    const context = exportCanvas.getContext('2d');
+    context.fillStyle = '#ffffff';
+    context.fillRect(
+        0,
+        0,
+        exportCanvas.width,
+        exportCanvas.height
+    );
+    context.drawImage(canvas, 0, 0);
+
+    context.fillStyle = '#455a64';
+    context.font = '14px Arial';
+    context.fillText(
+        'INTERNAL DECISION SUPPORT — System-generated indicator; verify official authority before administrative action.',
+        16,
+        canvas.height + 28
+    );
+    context.font = '12px Arial';
+    context.fillText(
+        'Carder Management does not itself constitute Government policy, circular, regulation or an administrative determination.',
+        16,
+        canvas.height + 50
+    );
+
+    const link = document.createElement('a');
     link.download = filename + '-{{ $year }}-{{ $month }}.png';
-    link.href = canvas.toDataURL('image/png');
+    link.href = exportCanvas.toDataURL('image/png');
     link.click();
 }
 

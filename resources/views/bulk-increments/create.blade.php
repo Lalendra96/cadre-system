@@ -6,7 +6,7 @@
     <div>
         <h2 class="md-headline-sm">Bulk Increment Builder</h2>
         <p class="md-body-sm" style="color:var(--md-on-surface-variant);">
-            Select a position to record increment dates for every employee holding it, in one go.
+            Select a position and prepare increment proposals for multiple employees. Each completed row is submitted for independent human approval; no increment is applied immediately.
         </p>
     </div>
 </div>
@@ -103,7 +103,7 @@
     </div>
 
     <div class="md-card__footer" style="display:flex;justify-content:flex-end;">
-        <button type="submit" class="md-btn md-btn--filled">💾 Save All Increments</button>
+        <button type="submit" class="md-btn md-btn--filled">✅ Submit All Completed Rows for Approval</button>
     </div>
 </form>
 @elseif($selectedPositionId)

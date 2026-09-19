@@ -6,7 +6,7 @@
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
         <a href="{{ route('employee-grades.index', $employee) }}" class="md-btn md-btn--icon">&#8592;</a>
         <div>
-            <h2 class="md-headline-sm">Quick Add Grade Record</h2>
+            <h2 class="md-headline-sm">Propose Grade Record</h2>
             <p class="md-body-sm" style="color:var(--md-on-surface-variant);">
                 {{ $employee->display_name }} ({{ $employee->pay_no ?? '—' }}) — {{ $employee->position->title ?? '—' }}
             </p>
@@ -73,7 +73,7 @@
                        value="{{ old('effective_date', now()->toDateString()) }}" required>
                 @error('effective_date')<div class="md-field__error">{{ $message }}</div>@enderror
                 <div class="md-body-sm" style="color:var(--md-on-surface-variant);margin-top:4px;">
-                    If there's a current grade record, its end date will be set to the day before this date automatically.
+                    If approved, the previous current grade record will be closed automatically. Nothing is applied until an independent authorised officer approves this proposal.
                 </div>
             </div>
 
@@ -96,7 +96,7 @@
 
         <div class="md-card__footer" style="display:flex;justify-content:flex-end;gap:10px;">
             <a href="{{ route('employee-grades.index', $employee) }}" class="md-btn md-btn--outlined">Cancel</a>
-            <button type="submit" class="md-btn md-btn--filled">💾 Save Grade Record</button>
+            <button type="submit" class="md-btn md-btn--filled">✅ Submit for Independent Approval</button>
         </div>
     </form>
     @endif

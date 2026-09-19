@@ -9,6 +9,7 @@ use App\Models\CarderMonthlyEntry;
 use App\Models\Employee;
 use App\Models\TransferRecord;
 use App\Models\User;
+use App\Services\AdministrativeDecisionService;
 use App\Services\AuditLogService;
 use App\Services\WorkforceScopeService;
 use Illuminate\Http\RedirectResponse;
@@ -81,10 +82,6 @@ class TransferRecordController extends Controller
             ? CarderMonthlyEntry::find($entryId)
             : null;
 
-        $employees = $this->assignableEmployees(
-            $request->user()
-        );
-
         return view(
             'transfer-records.form',
             [
@@ -94,7 +91,9 @@ class TransferRecordController extends Controller
                     ) ?: null,
                 ]),
                 'entry' => $entry,
-                'employees' => $employees,
+                'employees' => $this->assignableEmployees(
+                    $request->user()
+                ),
             ]
         );
     }
@@ -121,39 +120,32 @@ class TransferRecordController extends Controller
             403
         );
 
-        $data['employee_name'] = $employee->name;
-        $data['designation'] = $employee->position?->title
-            ?? $data['designation']
-            ?? null;
-        $data['recorded_by'] = $request->user()->id;
-        $data['is_active'] = true;
+        unset($data['review_confirmed']);
 
-        $record = TransferRecord::create($data);
-
-        AuditLogService::created(
-            $record,
-            "Transfer {$record->direction}: "
-            . $record->employee_name
+        $decision = AdministrativeDecisionService::request(
+            type: 'transfer_record',
+            employee: $employee,
+            payload: $data,
+            requester: $request->user(),
+            summary: 'Proposed '
+                . strtoupper($data['direction'])
+                . ' transfer for '
+                . $employee->display_name
+                . ' effective '
+                . $data['effective_date'],
+            sourceReference: $data['transfer_board_ref_no']
+                ?? $data['psc_circular_no']
+                ?? null
         );
 
-        if ($record->carder_entry_id) {
-            return redirect()
-                ->route(
-                    'carder-entries.edit',
-                    $record->carder_entry_id
-                )
-                ->with(
-                    'success',
-                    'Transfer record added.'
-                );
-        }
-
         return redirect()
-            ->route('transfer-records.index')
+            ->route(
+                'administrative-decisions.show',
+                $decision
+            )
             ->with(
                 'success',
-                "Transfer record for "
-                . "{$record->employee_name} saved."
+                'Transfer submitted for independent human approval. No transfer record has been applied yet.'
             );
     }
 
@@ -206,6 +198,8 @@ class TransferRecordController extends Controller
             403
         );
 
+        unset($data['review_confirmed']);
+
         $data['employee_name'] = $employee->name;
         $data['designation'] = $employee->position?->title
             ?? $data['designation']
@@ -218,16 +212,14 @@ class TransferRecordController extends Controller
         AuditLogService::updated(
             $transferRecord,
             $old,
-            "Updated transfer: "
-            . $transferRecord->employee_name
+            'Updated an already approved transfer record. Existing correction history retained in audit log.'
         );
 
         return redirect()
             ->route('transfer-records.index')
             ->with(
                 'success',
-                "Transfer record for "
-                . "{$transferRecord->employee_name} updated."
+                'Approved transfer record corrected. The before/after change is retained in the audit log.'
             );
     }
 
@@ -246,7 +238,7 @@ class TransferRecordController extends Controller
             label: 'Transfer record for "'
                 . $transferRecord->employee_name
                 . '"',
-            requireReason: false
+            requireReason: true
         );
     }
 
@@ -264,9 +256,8 @@ class TransferRecordController extends Controller
         );
     }
 
-    private function assignableEmployees(
-        User $user
-    ) {
+    private function assignableEmployees(User $user)
+    {
         if (
             $user->isSuperAdmin()
             || $user->isPlanningOfficer()

@@ -182,6 +182,24 @@
     >{{ old('notes', $rule?->notes) }}</textarea>
 </div>
 
+@if ($rule)
+    <div class="md-form-group">
+        <label class="md-label">
+            Reason for this change *
+        </label>
+
+        <textarea
+            class="md-input"
+            name="change_reason"
+            rows="2"
+            minlength="10"
+            maxlength="1000"
+            required
+            placeholder="Explain why the rule/source/approval record is being changed."
+        >{{ old('change_reason') }}</textarea>
+    </div>
+@endif
+
 <p class="md-body-sm">
     “Source-Verified by Institution” means the responsible institution has
     checked and recorded the source/reference. It is not a legal opinion or

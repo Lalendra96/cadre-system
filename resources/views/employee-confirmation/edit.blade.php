@@ -53,7 +53,7 @@
         </div>
 
         <div class="md-card__footer" style="display:flex;justify-content:flex-end;gap:10px;">
-            <button type="submit" class="md-btn md-btn--filled">💾 Save</button>
+            <button type="submit" class="md-btn md-btn--filled">✅ Submit Confirmation Decision for Approval</button>
         </div>
     </form>
 </div>
