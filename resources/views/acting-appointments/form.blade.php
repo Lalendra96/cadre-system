@@ -9,7 +9,9 @@
     <form method="POST"
           action="{{ $appointment->exists ? route('acting-appointments.update', $appointment) : route('acting-appointments.store') }}">
         @csrf
-        @if($appointment->exists) @method('PUT') @endif
+        @if ($appointment->exists)
+            @method('PUT')
+        @endif
 
         <div class="md-card__body" style="display:flex;flex-direction:column;gap:18px;">
 
@@ -17,7 +19,9 @@
                 <div style="background:var(--md-error-container);color:var(--md-on-error-container);
                             padding:12px 16px;border-radius:var(--md-shape-sm);font-size:13px;">
                     <ul style="margin:0;padding-left:16px;">
-                        @foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
                     </ul>
                 </div>
             @endif
@@ -38,7 +42,11 @@
                 @if($appointment->exists)
                     <input type="hidden" name="employee_id" value="{{ $appointment->employee_id }}">
                 @endif
-                @error('employee_id')<div class="md-field__error">{{ $message }}</div>@enderror
+                @error('employee_id')
+                    <div class="md-field__error">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
 
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
@@ -58,7 +66,11 @@
                     @if($appointment->exists)
                         <input type="hidden" name="acting_position_id" value="{{ $appointment->acting_position_id }}">
                     @endif
-                    @error('acting_position_id')<div class="md-field__error">{{ $message }}</div>@enderror
+                    @error('acting_position_id')
+                        <div class="md-field__error">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
 
                 <div class="md-field">
@@ -77,7 +89,11 @@
                     @if($appointment->exists)
                         <input type="hidden" name="substantive_position_id" value="{{ $appointment->substantive_position_id }}">
                     @endif
-                    @error('substantive_position_id')<div class="md-field__error">{{ $message }}</div>@enderror
+                    @error('substantive_position_id')
+                        <div class="md-field__error">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
             </div>
 
@@ -88,7 +104,11 @@
                            class="md-field__input @error('start_date') md-field--error @enderror"
                            value="{{ old('start_date', $appointment->start_date?->format('Y-m-d')) }}"
                            {{ $appointment->exists ? 'readonly' : '' }} required>
-                    @error('start_date')<div class="md-field__error">{{ $message }}</div>@enderror
+                    @error('start_date')
+                        <div class="md-field__error">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
 
                 <div class="md-field">
@@ -96,7 +116,11 @@
                     <input type="date" name="end_date"
                            class="md-field__input @error('end_date') md-field--error @enderror"
                            value="{{ old('end_date', $appointment->end_date?->format('Y-m-d')) }}">
-                    @error('end_date')<div class="md-field__error">{{ $message }}</div>@enderror
+                    @error('end_date')
+                        <div class="md-field__error">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
             </div>
 
@@ -106,7 +130,11 @@
                        class="md-field__input @error('appointment_order_no') md-field--error @enderror"
                        value="{{ old('appointment_order_no', $appointment->appointment_order_no) }}"
                        placeholder="e.g. MoH/HRM/2026/0123">
-                @error('appointment_order_no')<div class="md-field__error">{{ $message }}</div>@enderror
+                @error('appointment_order_no')
+                    <div class="md-field__error">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
 
             <div class="md-field">
@@ -128,7 +156,7 @@
         <div class="md-card__footer">
             <a href="{{ route('acting-appointments.index') }}" class="md-btn md-btn--text">Cancel</a>
             <button type="submit" class="md-btn md-btn--filled">
-                {{ $appointment->exists ? 'Update' : 'Record Appointment' }}
+                {{ $appointment->exists ? 'Save Audited Correction' : 'Submit for Independent Approval' }}
             </button>
         </div>
     </form>

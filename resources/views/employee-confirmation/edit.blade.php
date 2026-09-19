@@ -14,11 +14,26 @@
     </div>
 
     @if(session('success'))
-    <div style="background:var(--md-success-container,#1b3a2d);color:var(--md-on-success-container,#9ef0b3);padding:12px 18px;border-radius:var(--md-shape-sm);margin-bottom:16px;font-size:13px;">✓ {{ session('success') }}</div>
+    <div
+        style="
+            background: var(--md-success-container, #1b3a2d);
+            color: var(--md-on-success-container, #9ef0b3);
+            padding: 12px 18px;
+            border-radius: var(--md-shape-sm);
+            margin-bottom: 16px;
+            font-size: 13px;
+        "
+    >
+        ✓ {{ session('success') }}
+    </div>
     @endif
     @if($errors->any())
     <div style="background:var(--md-error-container);color:var(--md-on-error-container);padding:12px 18px;border-radius:var(--md-shape-sm);margin-bottom:16px;font-size:13px;">
-        <ul style="margin:0;padding-left:16px;">@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul>
+        <ul style="margin: 0; padding-left: 16px;">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
     </div>
     @endif
 
@@ -40,20 +55,28 @@
                     <input type="date" name="date_confirmed"
                            class="md-field__input @error('date_confirmed') md-field--error @enderror"
                            value="{{ old('date_confirmed', $employee->date_confirmed?->format('Y-m-d')) }}">
-                    @error('date_confirmed')<div class="md-field__error">{{ $message }}</div>@enderror
+                    @error('date_confirmed')
+                        <div class="md-field__error">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
                 <div class="md-field">
                     <label class="md-field__label">Confirmation Reference No.</label>
                     <input type="text" name="confirmation_reference_no"
                            class="md-field__input @error('confirmation_reference_no') md-field--error @enderror"
                            value="{{ old('confirmation_reference_no', $employee->confirmation_reference_no) }}" maxlength="60">
-                    @error('confirmation_reference_no')<div class="md-field__error">{{ $message }}</div>@enderror
+                    @error('confirmation_reference_no')
+                        <div class="md-field__error">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
             </div>
         </div>
 
         <div class="md-card__footer" style="display:flex;justify-content:flex-end;gap:10px;">
-            <button type="submit" class="md-btn md-btn--filled">💾 Save</button>
+            <button type="submit" class="md-btn md-btn--filled">✅ Submit Confirmation Decision for Approval</button>
         </div>
     </form>
 </div>

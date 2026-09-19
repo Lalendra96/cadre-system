@@ -117,7 +117,9 @@
             {{-- Ungrouped (top-of-nav) items first, if any --}}
             @foreach($groupedNavItems->get('__top__', collect()) as $item)
                 <a href="{{ route($item->route_name) }}"
-                   @if($item->open_in_new_tab) target="_blank" @endif
+                    @if ($item->open_in_new_tab)
+                        target="_blank"
+                    @endif
                    class="md-nav-item {{ request()->routeIs($item->route_name) || request()->routeIs($item->route_name . '.*') ? 'md-nav-item--active' : '' }}">
                     {{ $item->label }}
                 </a>
@@ -133,16 +135,35 @@
                              Not a permission rule — nav_items has no concept of a
                              dynamic badge, so this one route is special-cased here
                              rather than over-generalizing the schema for it. --}}
-                        <a href="{{ route('users.index') }}" class="md-nav-item {{ request()->routeIs('users.*') ? 'md-nav-item--active' : '' }}" style="justify-content:space-between;">
+                        <a
+                            href="{{ route('users.index') }}"
+                            class="md-nav-item {{ request()->routeIs('users.*') ? 'md-nav-item--active' : '' }}"
+                            style="justify-content: space-between;"
+                        >
                             <span>{{ $item->label }}</span>
                             @php($pendingResets = \App\Models\User::whereNotNull('password_reset_requested_at')->count())
                             @if($pendingResets > 0)
-                                <span style="background:var(--md-error);color:var(--md-on-error);font-size:10px;font-weight:700;padding:2px 6px;border-radius:999px;min-width:18px;text-align:center;">{{ $pendingResets }}</span>
+                                <span
+                                    style="
+                                        background: var(--md-error);
+                                        color: var(--md-on-error);
+                                        font-size: 10px;
+                                        font-weight: 700;
+                                        padding: 2px 6px;
+                                        border-radius: 999px;
+                                        min-width: 18px;
+                                        text-align: center;
+                                    "
+                                >
+                                    {{ $pendingResets }}
+                                </span>
                             @endif
                         </a>
                     @else
                         <a href="{{ route($item->route_name) }}"
-                           @if($item->open_in_new_tab) target="_blank" @endif
+                            @if ($item->open_in_new_tab)
+                                target="_blank"
+                            @endif
                            class="md-nav-item {{ request()->routeIs($item->route_name) || request()->routeIs($item->route_name . '.*') ? 'md-nav-item--active' : '' }}">
                             {{ $item->label }}
                         </a>
@@ -153,15 +174,39 @@
 
         <main style="flex:1;padding:24px;overflow-x:hidden;">
             @if(session('success'))
-                <div class="md-snackbar" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:200;background:var(--md-success-container);color:var(--md-on-success);">
+                <div
+                    class="md-snackbar"
+                    style="
+                        position: fixed;
+                        bottom: 24px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        z-index: 200;
+                        background: var(--md-success-container);
+                        color: var(--md-on-success);
+                    "
+                >
                     {{ session('success') }}
                 </div>
             @endif
             @if(session('error'))
-                <div class="md-snackbar" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:200;background:var(--md-error-container);color:var(--md-on-error-container);">
+                <div
+                    class="md-snackbar"
+                    style="
+                        position: fixed;
+                        bottom: 24px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        z-index: 200;
+                        background: var(--md-error-container);
+                        color: var(--md-on-error-container);
+                    "
+                >
                     {{ session('error') }}
                 </div>
             @endif
+
+            @include('partials.decision-support-notice')
 
             @yield('content')
         </main>

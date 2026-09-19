@@ -16,7 +16,7 @@
         @if($employee->position)
             <a href="{{ route('position-grades.index', $employee->position) }}" class="md-btn md-btn--outlined">⚙️ Grading Criteria</a>
         @endif
-        <a href="{{ route('employee-grades.create', $employee) }}" class="md-btn md-btn--filled">+ Quick Add Grade</a>
+        <a href="{{ route('employee-grades.create', $employee) }}" class="md-btn md-btn--filled">+ Propose Grade Record</a>
     </div>
 </div>
 
@@ -33,7 +33,7 @@
             display:flex;align-items:center;justify-content:space-between;
             background:var(--md-surface-container);">
     <div>
-        <div class="md-label-md">Current Grade</div>
+        <div class="md-label-md">Current Recorded Grade</div>
         <div class="md-body-sm" style="color:var(--md-on-surface-variant);">
             @if($current)
                 {{ $current->positionGrade->name ?? '—' }}
@@ -92,6 +92,20 @@
         </table>
     </div>
     <div class="md-card__footer">{{ $records->links('vendor.pagination.material') }}</div>
+</div>
+
+<div
+    style="
+        margin-top: 12px;
+        padding: 10px 12px;
+        border-left: 4px solid var(--md-primary);
+        background: var(--md-surface-container);
+    "
+>
+    <strong>Decision-support note:</strong>
+    Grade criteria and dates shown by the system are recorded indicators only.
+    A new grade record is applied only after independent human approval and
+    verification of the applicable official authority.
 </div>
 
 <p class="md-body-sm" style="color:var(--md-on-surface-variant);margin-top:12px;">

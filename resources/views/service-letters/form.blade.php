@@ -480,7 +480,11 @@
 
                     <div class="panel-subtitle">
                         Generated or AI-assisted text is only a draft.
-                        Verify every statement before approval.
+                        Verify every factual statement and the applicable
+                        official authority before approval. System/AI output
+                        does not itself constitute Government policy, a circular,
+                        regulation, Establishments Code provision, or an
+                        administrative determination.
                     </div>
                 </div>
             </div>

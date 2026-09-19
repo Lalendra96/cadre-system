@@ -5,7 +5,10 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeServicePeriodController;
 use App\Http\Controllers\FeatureManagementController;
 use App\Http\Controllers\IncomingOfficerController;
+use App\Http\Controllers\IncidentReportController;
 use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\GovernanceController;
+use App\Http\Controllers\AdministrativeDecisionController;
 use App\Http\Controllers\ServiceLetterController;
 use App\Http\Controllers\ServiceLetterLetterheadController;
 use App\Http\Controllers\ServiceLetterTemplateController;
@@ -326,6 +329,126 @@ Route::middleware('auth')->group(
             }
         );
 
+        Route::get(
+            '/incidents',
+            [
+                IncidentReportController::class,
+                'index',
+            ]
+        )->name('incidents.index');
+
+        Route::get(
+            '/incidents/create',
+            [
+                IncidentReportController::class,
+                'create',
+            ]
+        )->name('incidents.create');
+
+        Route::post(
+            '/incidents',
+            [
+                IncidentReportController::class,
+                'store',
+            ]
+        )->name('incidents.store');
+
+        Route::get(
+            '/incidents/{incidentReport}',
+            [
+                IncidentReportController::class,
+                'show',
+            ]
+        )->name('incidents.show');
+
+        Route::post(
+            '/incidents/{incidentReport}/triage',
+            [
+                IncidentReportController::class,
+                'triage',
+            ]
+        )->name('incidents.triage');
+
+        Route::post(
+            '/incidents/{incidentReport}/investigation',
+            [
+                IncidentReportController::class,
+                'recordInvestigation',
+            ]
+        )->name('incidents.investigation');
+
+        Route::post(
+            '/incidents/{incidentReport}/corrections',
+            [
+                IncidentReportController::class,
+                'recordCorrection',
+            ]
+        )->name('incidents.corrections.store');
+
+        Route::post(
+            '/incidents/{incidentReport}/resolve',
+            [
+                IncidentReportController::class,
+                'resolve',
+            ]
+        )->name('incidents.resolve');
+
+        Route::post(
+            '/incidents/{incidentReport}/close',
+            [
+                IncidentReportController::class,
+                'close',
+            ]
+        )->name('incidents.close');
+
+        Route::post(
+            '/incidents/{incidentReport}/reopen',
+            [
+                IncidentReportController::class,
+                'reopen',
+            ]
+        )->name('incidents.reopen');
+
+        Route::get(
+            '/administrative-decisions',
+            [
+                AdministrativeDecisionController::class,
+                'index',
+            ]
+        )->name('administrative-decisions.index');
+
+        Route::get(
+            '/administrative-decisions/{administrativeDecision}',
+            [
+                AdministrativeDecisionController::class,
+                'show',
+            ]
+        )->name('administrative-decisions.show');
+
+        Route::post(
+            '/administrative-decisions/{administrativeDecision}/approve',
+            [
+                AdministrativeDecisionController::class,
+                'approve',
+            ]
+        )->name('administrative-decisions.approve');
+
+        Route::post(
+            '/administrative-decisions/{administrativeDecision}/reject',
+            [
+                AdministrativeDecisionController::class,
+                'reject',
+            ]
+        )->name('administrative-decisions.reject');
+
+        Route::get(
+            '/governance',
+            [
+                GovernanceController::class,
+                'index',
+            ]
+        )->name('governance.index');
+
         Route::middleware(
             'role:super_admin'
         )->group(
@@ -349,6 +472,46 @@ Route::middleware('auth')->group(
                 )->name(
                     'admin.features.update'
                 );
+
+                Route::post(
+                    '/governance/profile',
+                    [
+                        GovernanceController::class,
+                        'updateProfile',
+                    ]
+                )->name('governance.profile.update');
+
+                Route::post(
+                    '/governance/business-rules',
+                    [
+                        GovernanceController::class,
+                        'storeRule',
+                    ]
+                )->name('governance.rules.store');
+
+                Route::put(
+                    '/governance/business-rules/{businessRule}',
+                    [
+                        GovernanceController::class,
+                        'updateRule',
+                    ]
+                )->name('governance.rules.update');
+
+                Route::get(
+                    '/governance/business-rules/{businessRule}/history',
+                    [
+                        GovernanceController::class,
+                        'ruleHistory',
+                    ]
+                )->name('governance.rules.history');
+
+                Route::patch(
+                    '/governance/business-rules/{businessRule}/toggle',
+                    [
+                        GovernanceController::class,
+                        'toggleRule',
+                    ]
+                )->name('governance.rules.toggle');
             }
         );
     }

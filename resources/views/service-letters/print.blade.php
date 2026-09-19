@@ -258,6 +258,22 @@
         @endif
     </div>
 
+    @if ($serviceLetter->status === 'approved')
+        <div
+            style="
+                margin-top: 24px;
+                font-size: 8.5px;
+                color: #555;
+                text-align: center;
+            "
+        >
+            Generated through Carder Management and authorised by the officer
+            identified above. Administrative authority derives from the
+            approving institution/officer and applicable official authority,
+            not from the software itself.
+        </div>
+    @endif
+
     @if ($letterhead?->footer_note)
         <div
             style="
