@@ -1,5 +1,33 @@
 # HIMS PARIKSHA — Carder Management System
 
+## Current source update — 3 October 2026
+
+This repository contains the updated copy-and-replace source package, including the 1 October reference-caching update and the 2 October Guided Employee Setup fix.
+
+- **Guided Employee Setup:** Preferred Language is now available in the Person step, with English selected by default. Sinhala and Tamil remain selectable, and the selection is retained after validation errors.
+- **Reference caching:** navigation definitions, units, positions and public holidays use versioned caches. Authorization, employee PII, approvals, payroll and attendance remain live. See [caching details](NON_CRITICAL_REFERENCE_CACHING_2026-10-01.md).
+- **Feature governance:** see [client versions and feature controls](CLIENT_VERSION_FEATURE_GOVERNANCE_2026-09-30.md).
+- **Workforce updates:** see [phase 2](WORKFORCE_PHASE2_COMPLETION_2026-09-30.md), [phase 3](WORKFORCE_PHASE3_COMPLETION_SUMMARY_2026-09-30.md) and [roster interface updates](ROSTER_MODERNISATION_2026-09-29.md).
+- **Saved Views remains available.** Removing an individual saved filter does not remove employee records.
+
+### Installing or updating this package
+
+The included `composer.json` targets **Laravel 10.x**. This is a copy-and-replace package, not a complete standalone Laravel skeleton: supply the base project's `bootstrap/` and writable `storage/` directories. Follow [INSTALLATION.md](INSTALLATION.md), retain your deployment `.env` and existing application key, install the locked Composer dependencies, and run the applicable migrations after backing up the database. Do not run demo seeders against production data.
+
+After replacing the source, clear compiled views and routes:
+
+```bash
+php artisan view:clear
+php artisan route:clear
+```
+
+When reference data is changed directly through SQL, run `php artisan cache:clear`; normal application edits invalidate the relevant reference cache automatically.
+
+Database backups, deployment credentials and runtime data are not included. This synchronization was checked for diff whitespace and package consistency; PHP/Laravel runtime tests were not run in the publishing environment.
+
+---
+
+
 <div align="center">
 
 # 🏥 Carder Management System

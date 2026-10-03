@@ -1,0 +1,5 @@
+{
+    "preset": "laravel",
+    "exclude": ["vendor", "storage", "bootstrap/cache", "tests/hr-responsibility/vendor"],
+    "notName": ["*.blade.php"]
+}

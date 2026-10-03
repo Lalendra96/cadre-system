@@ -59,9 +59,7 @@ php -m | grep -E "pdo_pgsql|mbstring|bcmath|xml|gd|zip|fileinfo"
 
 ## 2. Get a Laravel Skeleton
 
-This project ships as `app/`, `database/`, `resources/`, and `routes/` only — it
-is **not** a full Laravel installation (no `composer.json`, `vendor/`,
-`bootstrap/`, `config/`, or `artisan`). Start from a fresh Laravel 10 skeleton:
+This is a copy-and-replace package. It includes Composer manifests, application configuration and Artisan, but requires the base Laravel skeleton (including `bootstrap/` and writable `storage/`). Start from a fresh Laravel 10 skeleton:
 
 ```bash
 composer create-project laravel/laravel:^10.0 hims-carder

@@ -1,0 +1,4 @@
+app/Services/RoleDashboardService.php
+resources/views/dashboard/role-analytics.blade.php
+DASHBOARD_QUICK_ACCESS_TOP_UPDATE_2026_09_23.md
+CHANGED_FILES_DASHBOARD_QUICK_ACCESS_TOP_2026_09_23.txt

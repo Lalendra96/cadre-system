@@ -1,0 +1,42 @@
+/* Public circulars and intern selection share the steel-blue application palette. */
+.public-workspace {
+    color: var(--cadre-ink);
+    background: var(--cadre-page);
+}
+.public-workspace :is(.card, .slot, .slot-card, .circular-card, .filter-bar) {
+    background: var(--cadre-card);
+    color: var(--cadre-ink);
+    border: 1px solid var(--cadre-line);
+    border-radius: 8px;
+}
+.public-workspace :is(h1, h2, h3) {
+    color: var(--cadre-blue-700);
+}
+.public-workspace :is(label, .sub, .meta) {
+    color: var(--cadre-muted);
+}
+.public-workspace
+    :is(
+        input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]),
+        select,
+        textarea
+    ) {
+    background: var(--cadre-card);
+    color: var(--cadre-ink);
+    border: 1px solid var(--md-outline);
+    border-radius: 6px;
+    min-height: 40px;
+    padding: 9px 12px;
+    font: inherit;
+}
+.public-workspace button {
+    background: #126bc0;
+    color: white;
+    border-radius: 6px;
+}
+.public-workspace .selectize-input,
+.public-workspace .selectize-dropdown {
+    background: var(--cadre-card);
+    color: var(--cadre-ink);
+    border-color: var(--md-outline);
+}

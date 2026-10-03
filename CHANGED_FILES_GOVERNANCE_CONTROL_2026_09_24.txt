@@ -1,0 +1,14 @@
+app/Http/Controllers/GovernanceControlController.php
+routes/web.php
+database/migrations/2026_09_24_140000_add_governance_control_phase_tables.php
+database/migrations/2026_09_24_141000_add_governance_control_navigation.php
+resources/views/enterprise/governance.blade.php
+resources/views/governance-control/dashboard.blade.php
+resources/views/governance-control/decisions.blade.php
+resources/views/governance-control/rules.blade.php
+resources/views/governance-control/regulatory.blade.php
+resources/views/governance-control/retention.blade.php
+resources/views/governance-control/handovers.blade.php
+resources/views/governance-control/handover-pdf.blade.php
+GOVERNANCE_CONTROL_PHASE_2026_09_24.md
+CHANGED_FILES_GOVERNANCE_CONTROL_2026_09_24.txt

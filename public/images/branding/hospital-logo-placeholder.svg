@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <rect width="160" height="160" rx="32" fill="#eef5ff"/>
+  <circle cx="80" cy="68" r="42" fill="none" stroke="#1b5c98" stroke-width="6"/>
+  <path d="M80 38v60M50 68h60" stroke="#1b5c98" stroke-width="8" stroke-linecap="round"/>
+  <text x="80" y="134" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#1b5c98">HOSPITAL</text>
+</svg>

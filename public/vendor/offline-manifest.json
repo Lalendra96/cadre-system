@@ -1,0 +1,41 @@
+{
+  "libraries": {
+    "chart.js": "4.4.1",
+    "jquery": "3.7.1",
+    "@selectize/selectize": "0.15.2"
+  },
+  "files": [
+    {
+      "path": "chartjs/LICENSE.md",
+      "sha256": "5a0877ad6d818529be4f33009d0942cdf7e2ed7656156f4aba7308459a546030"
+    },
+    {
+      "path": "chartjs/chart.umd.js",
+      "sha256": "74401d738dd3e03ee5dfb3b6841210fe2c4ead8a960c4011ca4ba0b78a9fd8f3"
+    },
+    {
+      "path": "chartjs/chart.umd.js.map",
+      "sha256": "0dc6bf22c3ec9b0769936b67f09a15edd2de08c07c1298db2fb7c803a8d29cbc"
+    },
+    {
+      "path": "selectize/jquery-LICENSE.txt",
+      "sha256": "d4db9ebe6f29f5168eac45ad713f055623ac5d0dcd5ba92da23d650ae012020d"
+    },
+    {
+      "path": "selectize/jquery.min.js",
+      "sha256": "fc9a93dd241f6b045cbff0481cf4e1901becd0e12fb45166a8f17f95823f0b1a"
+    },
+    {
+      "path": "selectize/selectize-LICENSE.txt",
+      "sha256": "f7e95a5eb74ea7434f87d7b9aacc3cbee23e03d3fc0e2129d3fad9d7405aab27"
+    },
+    {
+      "path": "selectize/selectize.css",
+      "sha256": "4c53fe06260bb4dc865145ac0b315b79227e79f96905c7de8347cb15071ced16"
+    },
+    {
+      "path": "selectize/selectize.min.js",
+      "sha256": "5c419763078779a57ad828b7141a144bafa914c4ce11e7e0dbeb56e0361be416"
+    }
+  ]
+}

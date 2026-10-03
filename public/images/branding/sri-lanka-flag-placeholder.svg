@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120">
+  <rect width="240" height="120" rx="10" fill="#fff4d8" stroke="#d69b19" stroke-width="4"/>
+  <rect x="10" y="10" width="45" height="100" fill="#1e8b68"/>
+  <rect x="55" y="10" width="45" height="100" fill="#e89220"/>
+  <rect x="100" y="10" width="130" height="100" fill="#7b2435"/>
+  <text x="165" y="63" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" fill="#ffd56b">SRI LANKA FLAG</text>
+</svg>

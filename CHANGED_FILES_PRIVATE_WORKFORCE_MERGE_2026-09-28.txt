@@ -1,0 +1,39 @@
+Merged private workforce / GP functionality into current Carder source.
+
+Core integration changes:
+- app/Services/FeatureToggleService.php
+- app/Services/WorkforceFeatureService.php
+- app/Http/Controllers/FeatureManagementController.php
+- app/Http/Kernel.php
+- routes/web.php
+- resources/views/layouts/app.blade.php
+- resources/views/admin/features.blade.php
+- database/seeders/DatabaseSeeder.php
+
+New route modules:
+- routes/roster.php
+- routes/workforce.php
+
+New migrations:
+- database/migrations/2026_09_28_000001_create_roster_module_tables.php
+- database/migrations/2026_09_28_000002_create_private_workforce_modules.php
+
+New seeders:
+- database/seeders/RosterModuleSeeder.php
+- database/seeders/PrivateWorkforceModuleSeeder.php
+- database/seeders/PrivateWorkforceNavigationSeeder.php
+
+New module code:
+- app/Models/Roster*.php and workforce/payroll models
+- app/Services/Roster*.php, PayrollCalculationService.php, WorkforceAuditService.php
+- app/Http/Controllers/Roster*.php and workforce controllers
+- app/Http/Middleware/EnsureRosterEnabled.php
+- app/Http/Middleware/EnsureWorkforceFeatureEnabled.php
+- app/Http/Middleware/EnsureWorkforceSuperAdmin.php
+- resources/views/roster/**
+- resources/views/workforce/{attendance,contracts,cost-centre,leave,locum,overtime,payroll,self-service,settings}/**
+
+Documentation:
+- PRIVATE_WORKFORCE_MERGE_2026-09-28.md
+- GOVERNANCE_LEGAL_DESIGN_PRIVATE_WORKFORCE_2026-09-28.md
+- PRIVATE_WORKFORCE_FEATURE_MANIFEST_2026-09-28.md

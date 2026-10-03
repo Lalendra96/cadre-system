@@ -1,0 +1,25 @@
+Updated / added for governed Live Letter Editing inside Letter Sharing:
+
+MODIFIED
+app/Services/FeatureToggleService.php
+app/Models/Letter.php
+app/Models/LetterRecipient.php
+app/Http/Requests/StoreLetterRequest.php
+app/Http/Requests/UpdateLetterRecipientRequest.php
+app/Http/Controllers/LetterController.php
+app/Http/Controllers/LetterReviewController.php
+routes/web.php
+resources/views/letters/create.blade.php
+resources/views/letters/index.blade.php
+resources/views/admin/features.blade.php
+
+ADDED
+app/Models/LetterRevision.php
+app/Models/LetterComment.php
+app/Models/LetterPresence.php
+app/Http/Controllers/LetterLiveWorkspaceController.php
+resources/views/letters/workspace.blade.php
+database/migrations/2026_09_21_220000_add_governed_live_editing_to_letter_sharing.php
+database/manual/2026-09-21-letter-sharing-live-editing.sql
+LETTER_SHARING_LIVE_EDITING_UPDATE_2026_09_21.md
+CHANGED_FILES_LIVE_LETTER_SHARING_2026_09_21.txt

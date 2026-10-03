@@ -1,0 +1,11 @@
+app/Http/Controllers/DashboardController.php
+app/Http/Controllers/AdministrativeIntelligenceController.php
+app/Services/AdministrativeIntelligenceService.php
+app/Services/FeatureToggleService.php
+routes/web.php
+resources/views/dashboard/administrative-officer.blade.php
+resources/views/workforce/administrative-intelligence.blade.php
+resources/views/layouts/app.blade.php
+database/seeders/NavItemSeeder.php
+database/migrations/2026_09_25_170000_enhance_administrative_decision_navigation.php
+ADMINISTRATIVE_DECISION_INTELLIGENCE_UPDATE_2026_09_25.md

@@ -1,0 +1,170 @@
+/* Shared screen controls and surfaces. Print documents retain their own layout. */
+@media screen {
+    html[data-theme="light"] {
+        color-scheme: light;
+    }
+    html[data-theme="dark"] {
+        color-scheme: dark;
+    }
+
+    .app-main
+        :is(
+            .card,
+            .panel,
+            .md-card,
+            .md-stat-card,
+            .workforce-panel,
+            .workforce-kpi,
+            .insight-card,
+            .kpi-card,
+            .action-card
+        ) {
+        background: var(--cadre-card) !important;
+        color: var(--cadre-ink);
+        border-color: var(--cadre-line) !important;
+        border-radius: 8px;
+        min-width: 0;
+    }
+
+    .app-main
+        :is(
+            input:not([type="checkbox"]):not([type="radio"]):not(
+                    [type="hidden"]
+                ):not([type="range"]):not([type="color"]):not(
+                    [type="submit"]
+                ):not([type="button"]),
+            select,
+            textarea
+        ):not(.selectize-input > input),
+    .md-login-wrap
+        :is(
+            input:not([type="checkbox"]):not([type="hidden"]),
+            select,
+            textarea
+        ) {
+        box-sizing: border-box;
+        max-width: 100%;
+        min-width: 0;
+        min-height: 40px;
+        padding: 9px 12px;
+        border: 1px solid var(--md-outline) !important;
+        border-radius: 6px !important;
+        background: var(--md-surface-container-low) !important;
+        color: var(--md-on-surface) !important;
+        font: inherit;
+        line-height: 1.4;
+    }
+
+    .app-main textarea {
+        min-height: 96px;
+        resize: vertical;
+    }
+    .app-main :is(input, select, textarea):focus-visible {
+        outline: 3px solid
+            color-mix(in srgb, var(--md-primary) 35%, transparent);
+        outline-offset: 2px;
+    }
+    .app-main :is(input, textarea)::placeholder {
+        color: var(--md-on-surface-variant);
+        opacity: 1;
+    }
+    .app-main :is(input[type="checkbox"], input[type="radio"]) {
+        width: 18px;
+        height: 18px;
+        min-height: 0;
+        padding: 0;
+        accent-color: var(--md-primary);
+        flex: 0 0 auto;
+    }
+    .app-main :is(button:not([class]), input[type="submit"]) {
+        padding: 9px 16px;
+        min-height: 38px;
+        border: 1px solid transparent;
+        border-radius: 6px;
+        background: var(--md-primary);
+        color: var(--md-on-primary);
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    .app-main :is(button, input, select, textarea):disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+    }
+    .app-main :is(.md-label, .md-field__label) {
+        color: var(--md-on-surface-variant) !important;
+    }
+    .app-main table:not([class]) {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .app-main table:not([class]) :is(th, td) {
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--cadre-line);
+        text-align: left;
+    }
+    .app-main table:not([class]) th {
+        background: var(--md-surface-container-high);
+        color: var(--md-on-surface);
+    }
+    .global-search input {
+        background: transparent !important;
+        color: #1a3d5d !important;
+        border: 0;
+        outline: 0;
+    }
+    [data-theme="dark"] .app-main :is(.md-btn--outlined, .md-btn--ghost) {
+        background: var(--md-surface-container-low) !important;
+        color: var(--md-primary) !important;
+        border-color: var(--md-outline) !important;
+    }
+    .has-leading-whitespace {
+        border-color: var(--md-error) !important;
+        outline: 2px solid var(--md-error);
+    }
+    .form-error-summary {
+        padding: 14px 18px;
+        margin: 12px 0;
+        border: 1px solid var(--md-error);
+        border-radius: 8px;
+        background: var(--md-error-container);
+        color: var(--md-on-error-container);
+    }
+    .form-error-summary ul {
+        margin: 8px 0 0;
+        padding-left: 22px;
+    }
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+}
+
+@media screen {
+    :is(.app-main, .public-workspace)
+        :is(.selectize-input, .selectize-dropdown) {
+        background: var(--md-surface-container-low) !important;
+        color: var(--md-on-surface) !important;
+        border-color: var(--md-outline) !important;
+        border-radius: 6px;
+    }
+    :is(.app-main, .public-workspace) .selectize-input > input {
+        background: transparent !important;
+        color: var(--md-on-surface) !important;
+        border: 0 !important;
+        padding: 0 !important;
+        min-height: 0 !important;
+        box-shadow: none !important;
+    }
+    :is(.app-main, .public-workspace) .selectize-input > .item {
+        color: var(--md-on-surface);
+    }
+    :is(.app-main, .public-workspace) .selectize-dropdown .active {
+        color: var(--md-on-primary-container);
+        background: var(--md-primary-container);
+    }
+}

@@ -1,0 +1,4 @@
+<?php
+namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
+class CostCentreAnalyticsController extends Controller { public function index(){ $rows=DB::table('payroll_lines as pl')->leftJoin('cost_centres as cc','cc.id','=','pl.cost_centre_id')->selectRaw("COALESCE(cc.name,'Unassigned') as cost_centre, SUM(pl.gross_pay) gross_pay, SUM(pl.overtime_amount) overtime, SUM(pl.locum_amount) locum, SUM(pl.epf_employer + pl.etf_employer) employer_statutory, SUM(pl.net_pay) net_pay")->groupBy('cc.name')->orderByDesc('gross_pay')->get(); return view('workforce.cost-centre.index',compact('rows')); }}

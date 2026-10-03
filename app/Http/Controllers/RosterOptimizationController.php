@@ -1,0 +1,4 @@
+<?php
+namespace App\Http\Controllers;
+use App\Models\Position; use App\Models\Unit; use App\Services\RosterOptimizationService; use Illuminate\Http\Request;
+class RosterOptimizationController extends Controller { public function index(Request $r,RosterOptimizationService $svc){$suggestions=collect();if($r->filled(['unit_id','date','start_time','end_time'])){$d=$r->validate(['unit_id'=>'required|exists:units,id','position_id'=>'nullable|exists:positions,id','date'=>'required|date','start_time'=>'required','end_time'=>'required']);$suggestions=$svc->suggest((int)$d['unit_id'],$d['date'],$d['start_time'],$d['end_time'],$d['position_id']?(int)$d['position_id']:null,20);} $units=Unit::where('is_active',true)->orderBy('name')->get();$positions=Position::where('is_active',true)->orderBy('title')->get();return view('roster.optimizer.index',compact('suggestions','units','positions'));} }

@@ -1,0 +1,26 @@
+Intern Medical Officer Allocation governance/RHO update — 2026-09-22
+
+ADDED
+- app/Services/InternAllocationAccessService.php
+- app/Models/InternRhoPlacement.php
+- app/Http/Controllers/InternRhoPlacementController.php
+- resources/views/intern-batches/rho-placements.blade.php
+- database/migrations/2026_09_22_120000_govern_intern_batches_and_add_rho_placements.php
+- database/manual/2026-09-22-intern-allocation-governance-rho.sql
+- INTERN_ALLOCATION_GOVERNANCE_RHO_UPDATE_2026_09_22.md
+
+UPDATED
+- app/Models/InternBatch.php
+- app/Models/Intern.php
+- app/Http/Controllers/InternBatchController.php
+- app/Http/Controllers/InternUnitAllocationController.php
+- app/Http/Controllers/InternController.php
+- app/Http/Controllers/InternAssignmentController.php
+- app/Http/Controllers/InternSelectionController.php
+- app/Http/Controllers/CurrentInternAssignmentsController.php
+- resources/views/intern-batches/index.blade.php
+- resources/views/intern-batches/create.blade.php
+- resources/views/intern-batches/allocations.blade.php
+- resources/views/intern-batches/interns.blade.php
+- resources/views/intern-batches/assignments.blade.php
+- routes/web.php

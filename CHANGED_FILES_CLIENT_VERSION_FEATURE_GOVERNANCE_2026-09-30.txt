@@ -1,0 +1,15 @@
+app/Models/User.php
+app/Services/FeatureToggleService.php
+app/Http/Controllers/HrResponsibilityController.php
+app/Http/Controllers/ClientFeatureManagementController.php
+app/Http/Controllers/FeatureManagementController.php
+app/Http/Controllers/WorkforceSettingsController.php
+routes/web.php
+resources/views/admin/client-features.blade.php
+resources/views/admin/features.blade.php
+resources/views/workforce/settings/index.blade.php
+database/seeders/NavItemSeeder.php
+database/migrations/2026_09_28_000002_create_private_workforce_modules.php
+database/migrations/2026_09_30_064900_add_client_feature_manager_and_payroll_policy.php
+database/migrations/2026_09_30_065000_create_client_deployment_versions.php
+CLIENT_VERSION_FEATURE_GOVERNANCE_2026-09-30.md

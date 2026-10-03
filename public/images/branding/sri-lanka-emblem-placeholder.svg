@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <rect width="160" height="160" rx="24" fill="#f7f9fc"/>
+  <circle cx="80" cy="68" r="43" fill="none" stroke="#255b8f" stroke-width="5"/>
+  <path d="M52 82c18-7 38-7 56 0M60 55h40M80 35v68" fill="none" stroke="#255b8f" stroke-width="4"/>
+  <text x="80" y="132" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#255b8f">EMBLEM</text>
+</svg>

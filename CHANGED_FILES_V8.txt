@@ -1,0 +1,24 @@
+Changed or added relative to v7:
+
+README.md
+ROADMAP_STATUS_V8.md
+UPGRADE_HR_INTELLIGENCE_V8.md
+VALIDATION_V8.md
+app/Console/Commands/ReconcileHrOwnership.php
+app/Console/Kernel.php
+app/Http/Controllers/HrIntelligenceController.php
+app/Models/HrReassignmentCase.php
+app/Models/NavItem.php
+app/Models/User.php
+app/Services/HrIntelligenceService.php
+app/Services/HrOwnershipPolicy.php
+app/Services/HrWorkloadService.php
+database/migrations/2026_09_18_000094_create_hr_intelligence_tables.php
+database/seeders/NavItemSeeder.php
+resources/views/hr-intelligence/history.blade.php
+resources/views/hr-intelligence/index.blade.php
+resources/views/hr-responsibilities/index.blade.php
+routes/web.php
+tests/hr-intelligence/policy-checks.php
+tests/hr-responsibility/HrResponsibilityTest.php
+tests/hr-responsibility/README.md

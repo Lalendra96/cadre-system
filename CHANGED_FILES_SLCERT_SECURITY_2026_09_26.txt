@@ -1,0 +1,27 @@
+Sri Lanka CERT security alignment update — changed/added files
+
+ADDED
+- app/Http/Middleware/SecurityHeaders.php
+- app/Services/SecurityLogService.php
+- config/security.php
+- database/migrations/2026_09_26_000001_add_password_changed_at_to_users_table.php
+- SLCERT_SECURITY_UPDATE_2026_09_26.md
+- CHANGED_FILES_SLCERT_SECURITY_2026_09_26.txt
+
+UPDATED
+- .env.example
+- app/Http/Controllers/Auth/LoginController.php
+- app/Http/Controllers/Auth/MfaController.php
+- app/Http/Controllers/ForcePasswordChangeController.php
+- app/Http/Controllers/UserController.php
+- app/Http/Kernel.php
+- app/Http/Middleware/EnsurePasswordNotExpired.php
+- app/Http/Requests/StoreUserRequest.php
+- app/Http/Requests/UpdateUserRequest.php
+- app/Models/User.php
+- config/logging.php
+- config/session.php
+- resources/views/auth/change-password.blade.php
+- resources/views/partials/administrative-notice-modal.blade.php
+- resources/views/users/reset-password.blade.php
+- routes/web.php

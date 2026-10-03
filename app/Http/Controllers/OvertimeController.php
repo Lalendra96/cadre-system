@@ -1,0 +1,6 @@
+<?php
+namespace App\Http\Controllers;
+use App\Models\OvertimeRequest; use App\Services\WorkforceAuditService; use Illuminate\Http\Request;
+class OvertimeController extends Controller { public function index(){ $requests=OvertimeRequest::query()->latest('work_date')->paginate(30); return view('workforce.overtime.index',compact('requests')); }
+public function store(Request $r, WorkforceAuditService $audit){$d=$r->validate(['employee_id'=>'required|exists:employees,id','work_date'=>'required|date','overtime_type'=>'required|in:regular,night,weekend,holiday,on_call,call_back','minutes_requested'=>'required|integer|min:15|max:1440','rate_multiplier'=>'required|numeric|min:0|max:10','reason'=>'nullable|string|max:1000']);$d['requested_by']=auth()->id();$m=OvertimeRequest::create($d);$audit->model('created',$m,'Overtime request created');return back()->with('success','OT request created.');}
+public function approve(Request $r, OvertimeRequest $overtime, WorkforceAuditService $audit){$d=$r->validate(['minutes_approved'=>'required|integer|min:0|max:1440']);$old=$overtime->toArray();$overtime->update(['minutes_approved'=>$d['minutes_approved'],'status'=>'approved','approved_by'=>auth()->id(),'approved_at'=>now()]);$audit->model('updated',$overtime,'Overtime approved',$old);return back();}}

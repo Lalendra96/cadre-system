@@ -1,0 +1,21 @@
+Car Pass Management — changed/added files
+
+app/Http/Controllers/CarPassAdminController.php
+app/Http/Controllers/CarPassController.php
+app/Models/CarPassRequest.php
+app/Models/CarPassResponsibilityAssignment.php
+app/Models/CarPassTemplate.php
+app/Services/CarPassAccessService.php
+app/Services/FeatureToggleService.php
+database/migrations/2026_09_23_054500_create_car_pass_management_tables.php
+database/manual/2026-09-23-car-pass-management.sql
+database/seeders/NavItemSeeder.php
+resources/views/car-passes/admin.blade.php
+resources/views/car-passes/create.blade.php
+resources/views/car-passes/edit.blade.php
+resources/views/car-passes/index.blade.php
+resources/views/car-passes/print.blade.php
+resources/views/car-passes/search-results.blade.php
+resources/views/car-passes/show.blade.php
+routes/web.php
+CAR_PASS_MANAGEMENT_UPDATE_2026_09_23.md

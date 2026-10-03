@@ -1,0 +1,23 @@
+Offline Help & Knowledge Assistant — Phases 1–4
+
+Added:
+- app/Models/AiKnowledgeSource.php
+- app/Models/AiAssistantInteraction.php
+- app/Services/OfflineKnowledgeAssistantService.php
+- app/Http/Controllers/OfflineAssistantController.php
+- app/Http/Controllers/AiKnowledgeSourceController.php
+- database/migrations/2026_09_25_190000_create_offline_knowledge_assistant.php
+- resources/views/ai-assistant/index.blade.php
+- resources/views/ai-assistant/sources/index.blade.php
+- resources/views/ai-assistant/sources/form.blade.php
+- OFFLINE_ASSISTANT_PHASES_1_TO_4_2026_09_25.md
+
+Updated:
+- app/Services/FeatureToggleService.php
+- routes/web.php
+- resources/views/layouts/app.blade.php
+- app/Http/Controllers/RetirementProjectController.php (formatting)
+- app/Models/UtilityBill.php (formatting)
+- app/Http/Controllers/UtilityBillAdminController.php (formatting)
+- resources/views/service-letter-letterheads/form.blade.php (formatting)
+- resources/views/executive/unit-breakdown.blade.php (formatting)
