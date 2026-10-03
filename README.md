@@ -50,7 +50,7 @@ Database backups, deployment credentials and runtime data are not included. This
 
 ## ✨ What this system does
 
-Carder Management is a Laravel-based workforce and cadre-management platform designed for a Sri Lankan public-sector hospital environment.
+Carder Management is a Laravel-based workforce and cadre-management platform with Sri Lankan public-sector HR workflows and optional private-sector, GP and clinic workforce modules.
 
 It brings together:
 
@@ -67,6 +67,93 @@ It brings together:
 - configurable feature toggles
 - privacy-conscious local/offline AI assistance
 - data-quality, reconciliation and workforce-planning dashboards
+
+---
+
+
+## Public and private-sector support
+
+The codebase contains both Sri Lankan public-service HR workflows and optional workforce modules for private hospitals, GP practices, clinics and commercial deployments. Availability depends on the deployment edition, feature registration, dependencies and the user's role.
+
+| Deployment context | Capabilities represented in the source | Governance boundary |
+|---|---|---|
+| Public / government sector | Approved cadre, monthly staffing returns, substantive appointments, Subject Officer allocations, public/Combined Service history, transfers, grades, increments, retirement and official reporting | Official source documents and institutional approval remain authoritative |
+| Private hospital / GP / clinic / commercial sector | Rosters, attendance, employment contracts, leave, overtime, locum/session work, employee self-service and optional payroll/cost analysis | Modules require explicit configuration and appropriate access controls |
+| Shared administration | Employee profiles, documents, training, registration expiry, dashboards, audit, security, incidents, notifications and feature governance | Access remains role- and scope-dependent |
+
+**Current repository activation limitation:** the workforce controllers, services, routes and views are present, but the current `app/Services/FeatureToggleService.php` registry contains only the six original features. `WorkforceFeatureService` delegates to that registry; unregistered workforce features therefore resolve to disabled. The capabilities below describe source modules, not a claim that every module is currently reachable or enabled on `main`. Restoring the complete feature registry and verifying route registration/dependencies is required before deployment validation.
+
+The supplied phase-3 documentation specifies government defaults with digital leave, biometric adapters, leave automation, contract lifecycle, locum pool, demand forecasting and roster optimization disabled unless explicitly approved. Internal payroll is documented as disabled by default and requires exceptional Super Admin enablement with an audited governance reason. See [client feature governance](CLIENT_VERSION_FEATURE_GOVERNANCE_2026-09-30.md) and [government compatibility](WORKFORCE_PHASE3_COMPLETION_SUMMARY_2026-09-30.md).
+
+## Roster management
+
+Roster source is organized in [routes/roster.php](routes/roster.php), roster controllers and workflow/compliance services.
+
+| Area | Included functionality |
+|---|---|
+| Planning | Reusable roster templates, unit-based plans, assignments and employee availability |
+| Lifecycle | Draft submission, configured approval workflow, start and completion actions |
+| Calendar | Modern roster presentation and staffing-shortfall indicators |
+| Coverage | Open shifts, employee claims and manager review |
+| Shift changes | Two-way peer swaps, peer responses, replacement/give-away requests and approval |
+| Employee access | Personal roster action centre and acknowledgement of published duties |
+| Published-plan integrity | Governed amendment requests, previous-revision snapshots and revision increments |
+| Compliance | Overlap checks, configured staffing minimums, skill/competency requirements and cross-unit checks |
+| Optimization | Ranked employee suggestions using availability, workload, night-duty fairness and compliance signals |
+
+Acknowledgement records receipt of a roster; it is not attendance verification. Optimizer suggestions do not publish or amend a roster automatically. See [roster modernization](ROSTER_MODERNISATION_2026-09-29.md) and [phase-2 roster workflows](WORKFORCE_PHASE2_COMPLETION_2026-09-30.md).
+
+## Biometric integration and attendance
+
+The attendance integration source includes device configuration, device-user-to-employee mapping, attendance event retrieval, deduplication, multi-punch daily aggregation, odd-punch exception detection and manual rebuilding of daily attendance.
+
+| Adapter | Scope and configuration |
+|---|---|
+| Suprema BioStar 2 TA | Configurable REST retrieval adapter; supply the punch endpoint and authentication required by the installed BioStar/API version |
+| Generic REST | Configurable event endpoint and field mappings for middleware or SDK bridges |
+
+Integration credentials are stored using encrypted configuration. Carder stores attendance metadata rather than fingerprint, face or iris templates. Device compatibility, authentication, response shape, timezone handling and punch mapping must be tested against the actual installation; the adapter code is not a guarantee of plug-and-play compatibility with every device.
+
+Attendance also has manual records and a correction-request/decision workflow. See [attendance integration controller](app/Http/Controllers/AttendanceIntegrationController.php), [adapter implementations](app/Services/Attendance) and [phase-3 attendance notes](WORKFORCE_PHASE3_COMPLETION_SUMMARY_2026-09-30.md).
+
+## Additional workforce modules
+
+| Module | Source capabilities |
+|---|---|
+| Leave management | Configurable leave types and balances, half-day requests, approvals and carry-forward |
+| Leave automation | Effective-dated and contract-specific policies, monthly/annual accrual, annual/carry-forward caps and audited application runs |
+| Overtime | Attendance/roster-linked records, configurable multiplier and approval |
+| Contracts | Permanent, probation, fixed-term, part-time, hourly, locum, visiting and sessional terms |
+| Contract lifecycle | Probation reviews, confirm/extend/terminate decisions, renewal approval and new effective-dated contracts preserving earlier history |
+| Locum / session work | Session, hourly, per-patient, revenue-share and hybrid calculation methods |
+| Locum pool | Availability and preferred rates, booking approval, draft session creation and reconciliation; external payment references |
+| Employee self-service | Personal roster, attendance, leave and finalized payslip summaries, subject to enabled modules and permissions |
+| Payroll | Effective-dated statutory profiles, adjustments, overtime/locum inputs and finalized-run locking; disabled by default under documented governance |
+| Cost centres | Payroll, overtime, locum and employer statutory cost aggregation; depends on payroll |
+| Demand forecasting | Unit/position rules and activity inputs such as visits, admissions, bed-days, theatre, clinic and lab workload; required-FTE estimates and staffing gaps |
+
+Forecasts are advisory and do not change approved cadre. Leave automation requires governance review rather than independently determining legal entitlement. See the [workforce feature manifest](PRIVATE_WORKFORCE_FEATURE_MANIFEST_2026-09-28.md), [phase-3 summary](WORKFORCE_PHASE3_COMPLETION_SUMMARY_2026-09-30.md) and [workforce route definitions](routes/workforce.php).
+
+## Client editions, versions and feature governance
+
+The Client Version & Feature Manager module records client/institution, edition/plan, application version, release channel and a reason for each change. Version snapshots and audit records preserve the feature configuration history. This role is intended for deployment configuration and does not grant HR, payroll, employee PII or operational approval access.
+
+Feature dependencies include attendance for overtime/biometrics, contracts for locum/payroll, leave for accrual automation, roster for optimization and payroll for cost-centre analysis. Disabling a feature preserves historical records. Payroll and payroll-dependent cost-centre controls are excluded from the dedicated client feature manager's scope. The current registry limitation above must be resolved before these workforce controls can be treated as operational.
+
+## Other administrative and governance features
+
+The repository also contains modules beyond the original employee/cadre screens:
+
+- **Document and professional development:** employee documents, training/competency records and professional-registration expiry tracking.
+- **Official reporting:** preparation/review/approval workflows and report snapshots.
+- **Car passes:** application and administrative management workflows.
+- **Utility bills:** operational capture and administrative management.
+- **Governance:** ownership and authority records, business-rule references, workflow controls and incident/correction tracking.
+- **Security:** a dedicated security console, personnel PII protections and audit controls.
+- **Usability:** offline UI assets, contextual help, dashboard/history animation, chart improvements and AI usage auditing.
+- **Performance:** versioned caching for non-critical reference data, with sensitive decisions and personnel data kept live.
+
+For implementation detail, see [car passes](CAR_PASS_MANAGEMENT_UPDATE_2026_09_23.md), [utility bills](UTILITY_BILL_MANAGEMENT_UPDATE_2026_09_25.md), [security console](SUPER_ADMIN_SECURITY_CONSOLE_2026-09-28.md), [PII encryption](PERSONNEL_PII_ENCRYPTION_2026-09-26.md), [offline UI](OFFLINE_UI_UPGRADE_2026-09-24.md) and [reference caching](NON_CRITICAL_REFERENCE_CACHING_2026-10-01.md).
 
 ---
 
@@ -339,7 +426,7 @@ Current trilingual support is implemented as an expandable Laravel language-file
 
 Super Admin can turn optional modules on or off without removing code.
 
-Current feature groups include:
+The current central feature registry contains the following original groups. Additional workforce feature source and its activation limitation are documented above:
 
 | Feature | Toggle |
 |---|:---:|
