@@ -50,6 +50,7 @@
     method="POST"
     action="{{ route('employees.store') }}"
     id="profileWizard"
+    data-error-fields="{{ json_encode($errors->keys()) }}"
 >
     @csrf
 
@@ -76,6 +77,7 @@
         @foreach (
             [
                 '👤 Person',
+                '📞 Contact details',
                 '💼 Position',
                 '🏥 Workplace',
                 '📅 Service dates',
@@ -186,6 +188,17 @@
             </div>
 
             <div class="md-field">
+                <label for="guidedPreferredLanguage">Preferred Language *</label>
+                <select id="guidedPreferredLanguage" class="md-field__input" name="preferred_language" required>
+                    <option value="en" @selected(old('preferred_language', 'en') === 'en')>English</option>
+                    <option value="si" @selected(old('preferred_language', 'en') === 'si')>සිංහල</option>
+                    <option value="ta" @selected(old('preferred_language', 'en') === 'ta')>தமிழ்</option>
+                </select>
+                @error('preferred_language')
+                    <div class="md-field__error">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="md-field">
                 <label>NIC</label>
 
                 <input
@@ -217,9 +230,93 @@
         </div>
     </section>
 
+    <section class="workforce-panel gw-step" data-step="2" style="display: none;">
+        <h2>📞 Contact details</h2>
+        <p class="md-body-sm">All contact details are optional. You can add or update them later in Employee 360.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px">
+            <div class="md-field">
+                <label for="guided_email">Email address</label>
+                <input type="email" id="guided_email" name="email" maxlength="150"
+                    class="md-field__input @error('email') md-field--error @enderror"
+                    aria-describedby="guided_email_error" value="{{ old('email') }}">
+                <div id="guided_email_error">
+                    @error('email')
+                        <span class="md-field__error">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+            <div class="md-field">
+                <label for="guided_whatsapp_mobile">Mobile / WhatsApp number</label>
+                <input type="tel" id="guided_whatsapp_mobile" name="whatsapp_mobile" maxlength="20"
+                    class="md-field__input @error('whatsapp_mobile') md-field--error @enderror"
+                    aria-describedby="guided_whatsapp_mobile_error" value="{{ old('whatsapp_mobile') }}">
+                <div id="guided_whatsapp_mobile_error">
+                    @error('whatsapp_mobile')
+                        <span class="md-field__error">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+            <div class="md-field">
+                <label for="guided_permanent_address">Permanent address</label>
+                <textarea id="guided_permanent_address" name="permanent_address" maxlength="1000"
+                    class="md-field__input @error('permanent_address') md-field--error @enderror"
+                    aria-describedby="guided_permanent_address_error" rows="3">{{ old('permanent_address') }}</textarea>
+                <div id="guided_permanent_address_error">
+                    @error('permanent_address')
+                        <span class="md-field__error">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+            <div class="md-field">
+                <label for="guided_current_address">Current address</label>
+                <textarea id="guided_current_address" name="current_address" maxlength="1000"
+                    class="md-field__input @error('current_address') md-field--error @enderror"
+                    aria-describedby="guided_current_address_error" rows="3">{{ old('current_address') }}</textarea>
+                <div id="guided_current_address_error">
+                    @error('current_address')
+                        <span class="md-field__error">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+            <div class="md-field">
+                <label for="guided_emergency_contact_name">Emergency contact name</label>
+                <input type="text" id="guided_emergency_contact_name" name="emergency_contact_name" maxlength="150"
+                    class="md-field__input @error('emergency_contact_name') md-field--error @enderror"
+                    aria-describedby="guided_emergency_contact_name_error" value="{{ old('emergency_contact_name') }}">
+                <div id="guided_emergency_contact_name_error">
+                    @error('emergency_contact_name')
+                        <span class="md-field__error">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+            <div class="md-field">
+                <label for="guided_emergency_contact_relationship">Emergency contact relationship</label>
+                <input type="text" id="guided_emergency_contact_relationship" name="emergency_contact_relationship" maxlength="80"
+                    class="md-field__input @error('emergency_contact_relationship') md-field--error @enderror"
+                    aria-describedby="guided_emergency_contact_relationship_error" value="{{ old('emergency_contact_relationship') }}">
+                <div id="guided_emergency_contact_relationship_error">
+                    @error('emergency_contact_relationship')
+                        <span class="md-field__error">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+            <div class="md-field">
+                <label for="guided_emergency_contact_mobile">Emergency contact telephone</label>
+                <input type="tel" id="guided_emergency_contact_mobile" name="emergency_contact_mobile" maxlength="30"
+                    class="md-field__input @error('emergency_contact_mobile') md-field--error @enderror"
+                    aria-describedby="guided_emergency_contact_mobile_error" value="{{ old('emergency_contact_mobile') }}">
+                <div id="guided_emergency_contact_mobile_error">
+                    @error('emergency_contact_mobile')
+                        <span class="md-field__error">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section
         class="workforce-panel gw-step"
-        data-step="2"
+        data-step="3"
         style="display: none;"
     >
         <h2>
@@ -299,7 +396,7 @@
 
     <section
         class="workforce-panel gw-step"
-        data-step="3"
+        data-step="4"
         style="display: none;"
     >
         <h2>
@@ -343,7 +440,7 @@
 
     <section
         class="workforce-panel gw-step"
-        data-step="4"
+        data-step="5"
         style="display: none;"
     >
         <h2>📅 Important service dates</h2>
@@ -409,7 +506,7 @@
 
     <section
         class="workforce-panel gw-step"
-        data-step="5"
+        data-step="6"
         style="display: none;"
     >
         <h2>🎖 Career continuity</h2>
@@ -485,7 +582,7 @@
 
     <section
         class="workforce-panel gw-step"
-        data-step="6"
+        data-step="7"
         style="display: none;"
     >
         <h2>✅ Review & save</h2>
@@ -540,6 +637,7 @@
 <script>
     (() => {
         let step = 1;
+        const form = document.getElementById('profileWizard');
 
         const steps = [
             ...document.querySelectorAll('.gw-step'),
@@ -574,12 +672,12 @@
                     : 'visible';
 
             nextButton.style.display =
-                step === 6
+                step === steps.length
                     ? 'none'
                     : 'inline-flex';
 
             saveButton.style.display =
-                step === 6
+                step === steps.length
                     ? 'inline-flex'
                     : 'none';
         }
@@ -590,7 +688,14 @@
         });
 
         nextButton.addEventListener('click', () => {
-            step = Math.min(6, step + 1);
+            const current = steps.find(element => Number(element.dataset.step) === step);
+            const invalid = [...current.querySelectorAll('input, select, textarea')]
+                .find(field => !field.checkValidity());
+            if (invalid) {
+                invalid.reportValidity();
+                return;
+            }
+            step = Math.min(steps.length, step + 1);
             draw();
         });
 
@@ -601,7 +706,37 @@
             });
         });
 
+        // Reveal hidden steps before the browser focuses an invalid field.
+        form.addEventListener('invalid', event => {
+            const section = event.target.closest('.gw-step');
+            if (section) {
+                step = Number(section.dataset.step);
+                draw();
+            }
+        }, true);
+
+        // Preserve values in the same form DOM; never store contact data in browser storage.
+        form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea')
+            .forEach(field => {
+                field.addEventListener('input', () => {
+                    field.value = field.value.replace(/^\\s+/, '');
+                });
+                field.addEventListener('blur', () => {
+                    field.value = field.value.trim();
+                });
+            });
+
+        // Return to the first field rejected by server-side validation.
+        const errorFields = JSON.parse(form.dataset.errorFields || '[]');
+        const firstError = [...form.elements].find(field => errorFields.includes(field.name));
+        if (firstError && firstError.closest('.gw-step')) {
+            step = Number(firstError.closest('.gw-step').dataset.step);
+        }
+
         draw();
+        if (firstError) {
+            firstError.focus();
+        }
     })();
 </script>
 @endpush
